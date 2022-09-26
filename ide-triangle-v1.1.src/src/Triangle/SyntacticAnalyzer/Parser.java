@@ -292,12 +292,12 @@ public class Parser {
         }
       }
       break;
-
-    case Token.BEGIN:
-      acceptIt();
-      commandAST = parseCommand();
-      accept(Token.END);
-      break;
+//    Deleting Case Begin, it's comment just for safety in case we wanted to check something
+//    case Token.BEGIN:
+//      acceptIt();
+//      commandAST = parseCommand();
+//      accept(Token.END);
+//      break;
 
     case Token.LET:
       {
@@ -338,10 +338,12 @@ public class Parser {
     case Token.END:
     case Token.ELSE:
     case Token.IN:
-    case Token.EOT:
-
+    case Token.NIL: //Adding case NIL -- Jhonny Diaz
+    {
+      acceptIt();
       finish(commandPos);
       commandAST = new EmptyCommand(commandPos);
+    }
       break;
 
     default:

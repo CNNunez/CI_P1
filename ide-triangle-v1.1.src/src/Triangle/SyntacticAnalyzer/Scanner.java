@@ -147,6 +147,11 @@ public final class Scanner {
     case ',':
       takeIt();
       return Token.COMMA;
+     
+    // Adding case '|' (pipe) -- Johnny Diaz
+    case '|':
+      takeIt();
+      return Token.PIPE;
 
     case '~':
       takeIt();

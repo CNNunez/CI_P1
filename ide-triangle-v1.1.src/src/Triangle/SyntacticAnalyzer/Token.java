@@ -67,47 +67,58 @@ final class Token extends Object {
     OPERATOR	= 3,
 
     // reserved words - must be in alphabetical order...
+    //Edited by Jhonny Diaz
     ARRAY		= 4,
-    BEGIN		= 5,
-    CONST		= 6,
-    DO			= 7,
-    ELSE		= 8,
-    END			= 9,
-//    FOR                 = 10,
-//    FROM                = 11,
-    FUNC		= 10,
-    IF			= 11,
-    IN			= 12,
-//    INIT                = 12,
-//    LEAVE               = 13,
-    LET			= 13,
-    OF			= 14,
-    PROC		= 15,
-    RECORD		= 16,
-    THEN		= 17,
-    TYPE		= 18,
-    VAR			= 19,
-    WHILE		= 20,
-
+//    BEGIN		= 5, Deleting BEGIN -- Jhonny Diaz
+    CONST		= 5,
+    DO			= 6,
+    ELSE		= 7,
+    END			= 8,
+    FOR                 = 9, //Adding FOR -- Johnny Diaz
+    FROM                = 10,//Adding FROM -- Johnny Diaz
+    FUNC		= 11,
+    IF			= 12,
+    IN			= 13,
+    INIT                = 14,//Adding INIT -- Johnny Diaz
+    LEAVE               = 15,//Adding LEAVE -- Johnny Diaz
+    LET			= 16,
+    LOCAL               = 17,//Adding LOCAL -- Johnny Diaz
+    LOOP                = 18,//Adding LOOP -- Johnny Diaz
+    NEXT                = 19,//Adding NEXT -- Johnny Diaz
+    NIL                 = 20,//Adding NIL -- Johnny Diaz
+    OF			= 21,
+    PROC		= 22,
+    REC                 = 23,//Adding REC -- Johnny Diaz
+    RECORD		= 24,
+    RETURN              = 25,//Adding RETURN -- Johnny Diaz
+    SELECT              = 26,//Adding SELECT -- Johnny Diaz
+    TO                  = 27,//Adding TO -- Johnny Diaz
+    THEN		= 28,
+    TYPE		= 29,
+    UNTIL               = 30,//Adding UNTIL -- Johnny Diaz
+    VAR			= 31,
+    WHEN                = 32,//Adding WHEN -- Johnny Diaz
+    WHILE		= 33,
     // punctuation...
-    DOT			= 21,
-    COLON		= 22,
-    SEMICOLON	        = 23,
-    COMMA		= 24,
-    BECOMES		= 25,
-    IS			= 26,
+    DOT			= 34,
+    COLON		= 35,
+    SEMICOLON	        = 36,
+    COMMA		= 37,
+    BECOMES		= 38,
+    IS			= 39,
+    PIPE                = 40,//Adding PIPE -- Johnny Diaz
 
     // brackets...
-    LPAREN		= 27,
-    RPAREN		= 28,
-    LBRACKET	        = 29,
-    RBRACKET	        = 30,
-    LCURLY		= 31,
-    RCURLY		= 32,
+    LPAREN		= 41,
+    RPAREN		= 42,
+    LBRACKET	        = 43,
+    RBRACKET	        = 44,
+    LCURLY		= 45,
+    RCURLY		= 46,
 
     // special tokens...
-    EOT			= 33,
-    ERROR		= 34;
+    EOT			= 47,
+    ERROR		= 48;
 
   private static String[] tokenTable = new String[] {
     "<int>",
@@ -115,20 +126,33 @@ final class Token extends Object {
     "<identifier>",
     "<operator>",
     "array",
-    "begin",
+//    "begin", Deleting BEGIN
     "const",
     "do",
     "else",
     "end",
+    "for",//Adding FOR -- Johnny Diaz
+    "from",//Adding FROM -- Johnny Diaz
     "func",
     "if",
     "in",
+    "init",//Adding INIT -- Johnny Diaz
+    "leave",//Adding LEAVE -- Johnny Diaz
     "let",
+    "local",//Adding LOCAL -- Johnny Diaz
+    "loop",//Adding LOOP -- Johnny Diaz
+    "next",//Adding NEXT -- Johnny Diaz
+    "nil",//Adding NIL -- Johnny Diaz
     "of",
     "proc",
+    "rec",//Adding REC -- Johnny Diaz
     "record",
+    "return",//Adding RETURN -- Johnny Diaz
+    "select",//Adding SELECT -- Johnny Diaz
+    "to",//Adding TO -- Johnny Diaz
     "then",
     "type",
+    "until",//Adding UNTIL -- Johnny Diaz
     "var",
     "while",
     ".",
@@ -137,6 +161,7 @@ final class Token extends Object {
     ",",
     ":=",
     "~",
+    "|",//Adding PIPE -- Johnny Diaz
     "(",
     ")",
     "[",
