@@ -54,6 +54,7 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NilCommand;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -103,6 +104,9 @@ public class LayoutVisitor implements Visitor {
 
   public Object visitEmptyCommand(EmptyCommand ast, Object obj) {
     return layoutNullary("EmptyCom.");
+  }
+  public Object visitNilCommand(NilCommand ast, Object obj) {
+    return layoutNullary("NilCom.");
   }
 
   public Object visitIfCommand(IfCommand ast, Object obj) {

@@ -42,6 +42,7 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NilCommand;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -108,7 +109,12 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
+    @Override
   public Object visitEmptyCommand(EmptyCommand ast, Object o) { 
+      return(null);
+  }
+    @Override
+  public Object visitNilCommand(NilCommand ast, Object o) { 
       return(null);
   }
   

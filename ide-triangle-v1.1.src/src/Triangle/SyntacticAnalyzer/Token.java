@@ -92,8 +92,8 @@ final class Token extends Object {
     RECORD		= 24,
     RETURN              = 25,//Adding RETURN -- Johnny Diaz
     SELECT              = 26,//Adding SELECT -- Johnny Diaz
-    TO                  = 27,//Adding TO -- Johnny Diaz
-    THEN		= 28,
+    THEN                = 27,
+    TO  		= 28,//Adding TO -- Johnny Diaz
     TYPE		= 29,
     UNTIL               = 30,//Adding UNTIL -- Johnny Diaz
     VAR			= 31,
@@ -149,11 +149,12 @@ final class Token extends Object {
     "record",
     "return",//Adding RETURN -- Johnny Diaz
     "select",//Adding SELECT -- Johnny Diaz
-    "to",//Adding TO -- Johnny Diaz
     "then",
+    "to",//Adding TO -- Johnny Diaz
     "type",
     "until",//Adding UNTIL -- Johnny Diaz
     "var",
+    "when",//Adding WHEN -- Jhonny Diaz
     "while",
     ".",
     ":",

@@ -24,6 +24,7 @@ import Triangle.AbstractSyntaxTrees.AssignCommand;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.Cases;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.Command;
@@ -54,6 +55,7 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NilCommand;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -292,30 +294,30 @@ public class Parser {
         }
       }
       break;
-//    Deleting Case Begin, it's comment just for safety in case we wanted to check something
-//    case Token.BEGIN:
-//      acceptIt();
-//      commandAST = parseCommand();
-//      accept(Token.END);
-//      break;
 
+      //Begin has been deleted -- Jhonny Diaz
+      
+    
+    //Editing LET command -- Jhonny Diaz
     case Token.LET:
       {
         acceptIt();
         Declaration dAST = parseDeclaration();
         accept(Token.IN);
-        Command cAST = parseSingleCommand();
+        Command cAST = parseCommand();
         finish(commandPos);
         commandAST = new LetCommand(dAST, cAST, commandPos);
+        accept(Token.END);
       }
       break;
 
+    //Editing IF command -- Jhonny Diaz
     case Token.IF:
       {
         acceptIt();
         Expression eAST = parseExpression();
         accept(Token.THEN);
-        Command c1AST = parseSingleCommand();
+        Command c1AST = parseCommand();
         accept(Token.ELSE);
         Command c2AST = parseSingleCommand();
         finish(commandPos);
@@ -333,11 +335,34 @@ public class Parser {
         commandAST = new WhileCommand(eAST, cAST, commandPos);
       }
       break;
+     
+    //Adding SELECT command -- Jhonny Diaz
+//    case Token.SELECT:
+//    {
+//        acceptIt();
+//        Expression eAST = parseExpression();        
+//        accept(Token.FROM);   
+//        Cases cAST = parseCases();  
+//        if(currentToken.kind == Token.ELSE){
+//            acceptIt();
+//            Command leaAST = parseCommand();
+//            accept(Token.END);
+//            finish(commandPos);
+//            commandAST = new ChooseCommand(eAST, cAST, leaAST, commandPos);
+//        }else{
+//            accept(Token.END);            
+//            finish(commandPos);
+//            commandAST = new ChooseCommand(eAST, cAST, null, commandPos);
+//        }       
+//      }
+//      break;
+      
+    
 
-    case Token.SEMICOLON:
-    case Token.END:
-    case Token.ELSE:
-    case Token.IN:
+//    case Token.SEMICOLON:
+//    case Token.END:
+//    case Token.ELSE:
+//    case Token.IN:
     case Token.NIL: //Adding case NIL -- Jhonny Diaz
     {
       acceptIt();
