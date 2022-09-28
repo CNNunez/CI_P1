@@ -275,113 +275,119 @@ public class Parser {
     switch (currentToken.kind) {
 
     case Token.IDENTIFIER:
-      {
-        Identifier iAST = parseIdentifier();
-        if (currentToken.kind == Token.LPAREN) {
-          acceptIt();
-          ActualParameterSequence apsAST = parseActualParameterSequence();
-          accept(Token.RPAREN);
-          finish(commandPos);
-          commandAST = new CallCommand(iAST, apsAST, commandPos);
+    {
+      Identifier iAST = parseIdentifier();
+      if (currentToken.kind == Token.LPAREN) {
+        acceptIt();
+        ActualParameterSequence apsAST = parseActualParameterSequence();
+        accept(Token.RPAREN);
+        finish(commandPos);
+        commandAST = new CallCommand(iAST, apsAST, commandPos);
 
-        } else {
+      } else {
 
-          Vname vAST = parseRestOfVname(iAST);
-          accept(Token.BECOMES);
-          Expression eAST = parseExpression();
-          finish(commandPos);
-          commandAST = new AssignCommand(vAST, eAST, commandPos);
-        }
+        Vname vAST = parseRestOfVname(iAST);
+        accept(Token.BECOMES);
+        Expression eAST = parseExpression();
+        finish(commandPos);
+        commandAST = new AssignCommand(vAST, eAST, commandPos);
       }
-      break;
+    }
+    break;
 
-      //Begin has been deleted -- Jhonny Diaz
-      
-    
-    //Editing LET command -- Jhonny Diaz
+    //Begin has been deleted -- Jhonny Diaz
+    //Adding LET command -- Jhonny Diaz
     case Token.LET:
-      {
-        acceptIt();
-        Declaration dAST = parseDeclaration();
-        accept(Token.IN);
-        Command cAST = parseCommand();
-        finish(commandPos);
-        commandAST = new LetCommand(dAST, cAST, commandPos);
-        accept(Token.END);
-      }
-      break;
+    {
+      acceptIt();
+      Declaration dAST = parseDeclaration();
+      accept(Token.IN);
+      Command cAST = parseCommand();
+      finish(commandPos);
+      commandAST = new LetCommand(dAST, cAST, commandPos);
+      accept(Token.END);
+    }
+    break;
 
-    //Editing IF command -- Jhonny Diaz
+    //Adding IF command -- Jhonny Diaz
     case Token.IF:
-      {
-        acceptIt();
-        Expression eAST = parseExpression();
-        accept(Token.THEN);
-        Command c1AST = parseCommand();
-        
-        while(currentToken.kind == Token.PIPE){
-            acceptIt();
-            Expression exPipe = parseExpression();
-            accept(Token.THEN);
-            
-        }
-        
-        
-        accept(Token.ELSE);
-        Command c2AST = parseCommand();
-        
-        accept(Token.END);
-        
-        finish(commandPos);
-        commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
-      }
-      break;
+    {
+      acceptIt();
+      Expression eAST = parseExpression();
+      accept(Token.THEN);
+      Command c1AST = parseCommand();
 
-    case Token.WHILE:
-      {
-        acceptIt();
-        Expression eAST = parseExpression();
-        accept(Token.DO);
-        Command cAST = parseSingleCommand();
-        finish(commandPos);
-        commandAST = new WhileCommand(eAST, cAST, commandPos);
+      while(currentToken.kind == Token.PIPE){
+          acceptIt();
+          Expression exPipe = parseExpression();
+          accept(Token.THEN);
+
       }
-      break;
-     
-    //Adding SELECT command -- Jhonny Diaz
-//    case Token.SELECT:
-//    {
+
+
+      accept(Token.ELSE);
+      Command c2AST = parseCommand();
+
+      accept(Token.END);
+
+      finish(commandPos);
+      commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
+    }
+    break;
+
+//    case Token.WHILE:
+//      {
 //        acceptIt();
-//        Expression eAST = parseExpression();        
-//        accept(Token.FROM);   
-//        Cases cAST = parseCases();  
-//        if(currentToken.kind == Token.ELSE){
-//            acceptIt();
-//            Command leaAST = parseCommand();
-//            accept(Token.END);
-//            finish(commandPos);
-//            commandAST = new ChooseCommand(eAST, cAST, leaAST, commandPos);
-//        }else{
-//            accept(Token.END);            
-//            finish(commandPos);
-//            commandAST = new ChooseCommand(eAST, cAST, null, commandPos);
-//        }       
+//        Expression eAST = parseExpression();
+//        accept(Token.DO);
+//        Command cAST = parseSingleCommand();
+//        finish(commandPos);
+//        commandAST = new WhileCommand(eAST, cAST, commandPos);
 //      }
 //      break;
-      
+     
+    case Token.LOOP:
+    {
+        acceptIt();
+
+        if (currentToken.kind == Token.WHILE)
+            {
+                acceptIt();
+                Expression eAST = parseExpression();
+                accept(Token.DO);
+                Command cAST = parseCommand();
+                acceptIt();
+                accept(Token.END);
+                finish(commandPos);
+                commandAST = new WhileCommand(eAST,cAST,commandPos);
+            }
+    }
+        
+    case Token.LEAVE:
+    {
+        acceptIt();
+    }
+    case Token.NEXT:
+    {
+        acceptIt();
+    }
     
+    case Token.RETURN:
+    {
+        acceptIt();
+    }
 
 //    case Token.SEMICOLON:
 //    case Token.END:
 //    case Token.ELSE:
 //    case Token.IN:
     case Token.NIL: //Adding case NIL -- Jhonny Diaz
-    {
-      acceptIt();
-      finish(commandPos);
-      commandAST = new EmptyCommand(commandPos);
-    }
-      break;
+        {
+          acceptIt();
+          finish(commandPos);
+          commandAST = new EmptyCommand(commandPos);
+        }
+          break;
 
     default:
       syntacticError("\"%\" cannot start a command",
