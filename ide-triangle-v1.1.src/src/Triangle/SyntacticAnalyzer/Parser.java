@@ -318,8 +318,20 @@ public class Parser {
         Expression eAST = parseExpression();
         accept(Token.THEN);
         Command c1AST = parseCommand();
+        
+        while(currentToken.kind == Token.PIPE){
+            acceptIt();
+            Expression exPipe = parseExpression();
+            accept(Token.THEN);
+            
+        }
+        
+        
         accept(Token.ELSE);
-        Command c2AST = parseSingleCommand();
+        Command c2AST = parseCommand();
+        
+        accept(Token.END);
+        
         finish(commandPos);
         commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
       }
@@ -651,10 +663,35 @@ public class Parser {
       {
         acceptIt();
         Identifier iAST = parseIdentifier();
-        accept(Token.COLON);
+        if (currentToken.kind == Token.COLON)
+            accept(Token.COLON);
+        
+        if (currentToken.kind == Token.INIT)
+            accept(Token.INIT);
+        
         TypeDenoter tAST = parseTypeDenoter();
         finish(declarationPos);
         declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
+        
+        
+//        if (currentToken.kind == Token.COLON){
+//            accept(Token.COLON);
+//            TypeDenoter tAST = parseTypeDenoter();
+//            finish(declarationPos);
+//            declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
+//        }
+//        
+//        
+//        
+//        if (currentToken.kind == Token.INIT){
+//            accept(Token.INIT);
+//            Expression eAST = parseExpression();
+//            finish(declarationPos);
+//            declarationAST = new VarDeclaration(iAST, eAST, declarationPos);
+//        }
+        
+        
+        
       }
       break;
 
@@ -666,7 +703,8 @@ public class Parser {
         FormalParameterSequence fpsAST = parseFormalParameterSequence();
         accept(Token.RPAREN);
         accept(Token.IS);
-        Command cAST = parseSingleCommand();
+        Command cAST = parseCommand();
+        accept(Token.END);
         finish(declarationPos);
         declarationAST = new ProcDeclaration(iAST, fpsAST, cAST, declarationPos);
       }
