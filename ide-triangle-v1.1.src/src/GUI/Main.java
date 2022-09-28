@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import Triangle.IDECompiler;
+import Triangle.HTMLGenerator;
 import Core.ExampleFileFilter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
@@ -57,10 +58,17 @@ public class Main extends javax.swing.JFrame {
             //UIManager.setLookAndFeel(new WindowsLookAndFeel());            
         } catch (Exception e) { }
         
+        
+        //Para hacer pruebas del generador de HTML
+        try{
+            new HTMLGenerator();
+        } catch (Exception e) { }
+        
         initComponents();
         setSize(640, 480);
         setVisible(true);
         directory = new File(".");
+        
     }
     
     /**
