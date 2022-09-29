@@ -37,6 +37,7 @@ import Core.ExampleFileFilter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import Core.Visitors.TreeVisitor;
+import Triangle.XML.Writer;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
@@ -619,6 +620,12 @@ public class Main extends javax.swing.JFrame {
 //                disassembler.Disassemble(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".tam"));
                 ((FileFrame)desktopPane.getSelectedFrame()).setTree((DefaultMutableTreeNode)treeVisitor.visitProgram(compiler.getAST(), null));
 //                ((FileFrame)desktopPane.getSelectedFrame()).setTable(tableVisitor.getTable(compiler.getAST()));
+                
+                
+                //XML -- Jhonny Diaz
+                //Adding XML writer, this takes the final result and writes it into xml
+                Writer c = new Writer(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".xml"));
+                c.write(compiler.getAST()); //Here it takes the final AST
                 
                 runMenuItem.setEnabled(false);
                 buttonRun.setEnabled(false);

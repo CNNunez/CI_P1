@@ -1,5 +1,12 @@
-let
-var j init char
-in
-nil
-end
+<?xml version="1.0" standalone="yes"?>
+<Program>
+<LetCommand>
+<InitDeclaration>
+<Identifier value="j"/>
+<CharacterExpression>
+<CharacterLiteral value="'a'"/>
+</CharacterExpression>
+</InitDeclaration>
+<NilCommand/>
+</LetCommand>
+</Program>
