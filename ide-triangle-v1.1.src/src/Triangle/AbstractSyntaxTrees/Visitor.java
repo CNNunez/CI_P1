@@ -25,7 +25,8 @@ public interface Visitor {
   public abstract Object visitPipeCommand(PipeCommand ast, Object o);// N
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
-  public abstract Object visitNilCommand(NilCommand ast, Object o);
+  public abstract Object visitNilCommand(NilCommand ast, Object o); //Adding NIL command to be sure its visited -- Jhonny Diaz
+  public abstract Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object o);//Adding loop while do command to be sure its visited -- Jhonny Diaz
 
 
   // Expressions
@@ -50,6 +51,9 @@ public interface Visitor {
   public abstract Object visitTypeDeclaration(TypeDeclaration ast, Object o);
   public abstract Object visitUnaryOperatorDeclaration(UnaryOperatorDeclaration ast, Object o);
   public abstract Object visitVarDeclaration(VarDeclaration ast, Object o);
+  public abstract Object visitInitDeclaration(InitDeclaration ast, Object o);//Adding Init declaration to be sure its visited -- Jhonny Diaz
+  public abstract Object visitSequentialProcFuncDeclaration(SequentialProcFuncDeclaration ast, Object o);//Adding procfunc declaration to be sure its visited -- Jhonny Diaz
+  public abstract Object visitRecDeclaration(RecDeclaration ast, Object o);//Adding rec declaration to be sure its visited -- Jhonny Diaz
 
   // Array Aggregates
   public abstract Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object o);

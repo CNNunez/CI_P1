@@ -32,11 +32,13 @@ import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
 import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
 import Triangle.AbstractSyntaxTrees.IfExpression;
+import Triangle.AbstractSyntaxTrees.InitDeclaration;
 import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -49,10 +51,12 @@ import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
+import Triangle.AbstractSyntaxTrees.RecDeclaration;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialProcFuncDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -114,17 +118,22 @@ public class TableVisitor implements Visitor {
   public Object visitEmptyCommand(EmptyCommand ast, Object o) { 
       return(null);
   }
+  
+  //Implementing the visit to NIL -- Jhonny Diaz
     @Override
   public Object visitNilCommand(NilCommand ast, Object o) { 
       return(null);
   }
   
+  // N
    public Object visitPipeCommand(PipeCommand ast, Object o) {
         ast.E.visit(this, null);
         ast.C1.visit(this, null);
         return null;
   }
       
+
+  //Implementing the visit to IF -- Jhonny Diaz
   public Object visitIfCommand(IfCommand ast, Object o) { 
       ast.E.visit(this, null);
       ast.C1.visit(this, null);
@@ -133,6 +142,7 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
+  //Implementing the visit to LET -- Jhonny Diaz
   public Object visitLetCommand(LetCommand ast, Object o) {     
       ast.D.visit(this, null);
       ast.C.visit(this, null);
@@ -153,6 +163,14 @@ public class TableVisitor implements Visitor {
       
       return(null);
   }
+  //Implementing the visit to LOOP WHILE DO COMMAND -- Jhonny Diaz
+  public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object o) { 
+      ast.E.visit(this, null);
+      ast.C.visit(this, null);
+      
+      return(null);
+  }
+  
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc=" Expressions ">
@@ -260,6 +278,15 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
+  //Implementing the visit to INIT -- Jhonny Diaz
+  public Object visitInitDeclaration(InitDeclaration ast, Object o) {   
+
+      ast.E.visit(this, null);
+      ast.I.visit(this, null);
+
+      return(null);
+  }
+  
   public Object visitFuncDeclaration(FuncDeclaration ast, Object o) {    
       try {
       addIdentifier(ast.I.spelling, 
@@ -291,10 +318,23 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
+  
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object o) {   
       ast.D1.visit(this, null);
       ast.D2.visit(this, null);
       
+      return(null);
+  }
+  //Implementing the visit to PROCFUNC -- Jhonny Diaz
+  public Object visitSequentialProcFuncDeclaration(SequentialProcFuncDeclaration ast, Object o) {   
+      ast.D1.visit(this, null);
+      ast.D2.visit(this, null);
+      
+      return(null);
+  }
+  //Implementing the visit to REC -- Jhonny Diaz
+  public Object visitRecDeclaration(RecDeclaration ast, Object o) {   
+      ast.I.visit(this, null);
       return(null);
   }
   

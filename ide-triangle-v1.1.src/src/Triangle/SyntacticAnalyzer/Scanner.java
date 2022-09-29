@@ -191,6 +191,8 @@ public final class Scanner {
   }
 
   public Token scan () {
+      //instanciar clase HTML 
+      //atributo tipo texto donde vamos a agregar todo lo que se escanee
     Token tok;
     SourcePosition pos;
     int kind;

@@ -32,11 +32,13 @@ import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
 import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
 import Triangle.AbstractSyntaxTrees.IfExpression;
+import Triangle.AbstractSyntaxTrees.InitDeclaration;
 import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -49,10 +51,12 @@ import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
+import Triangle.AbstractSyntaxTrees.RecDeclaration;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialProcFuncDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -125,6 +129,11 @@ public class TreeVisitor implements Visitor {
     public Object visitWhileCommand(WhileCommand ast, Object obj) {
         return(createBinary("While Command", ast.E, ast.C));
     }
+    
+    
+    public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object obj) {
+        return(createBinary("LoopWhileDo Command", ast.E, ast.C));
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Expressions ">
@@ -183,6 +192,9 @@ public class TreeVisitor implements Visitor {
     public Object visitConstDeclaration(ConstDeclaration ast, Object obj) {
         return(createBinary("Constant Declaration", ast.I, ast.E));
     }
+    public Object visitInitDeclaration(InitDeclaration ast, Object obj) {
+        return(createBinary("Init Declaration", ast.I, ast.E));
+    }
     
     public Object visitFuncDeclaration(FuncDeclaration ast, Object obj) {
         return(createQuaternary("Function Declaration", ast.I, ast.FPS, ast.T, ast.E));
@@ -192,8 +204,17 @@ public class TreeVisitor implements Visitor {
         return(createTernary("Procedure Declaration", ast.I, ast.FPS, ast.C));        
     }
     
+    //Adding visitRecDeclaration -- Jhonny Diaz
+    public Object visitRecDeclaration(RecDeclaration ast, Object obj) {
+        return(createUnary("Rec Declaration", ast.I));        
+    }
+    
     public Object visitSequentialDeclaration(SequentialDeclaration ast, Object obj) {
         return(createBinary("Sequential Declaration", ast.D1, ast.D2));
+    }
+    
+    public Object visitSequentialProcFuncDeclaration(SequentialProcFuncDeclaration ast, Object obj) {
+        return(createBinary("Sequential ProcFunc Declaration", ast.D1, ast.D2));
     }
     
     public Object visitTypeDeclaration(TypeDeclaration ast, Object obj) {

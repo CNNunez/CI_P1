@@ -1,0 +1,11 @@
+let
+local
+var i : char
+in
+var j : char
+end
+in
+	nil 
+end
+
+! OK
