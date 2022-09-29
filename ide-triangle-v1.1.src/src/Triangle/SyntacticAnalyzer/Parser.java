@@ -57,6 +57,7 @@ import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NilCommand;
 import Triangle.AbstractSyntaxTrees.Operator;
+import Triangle.AbstractSyntaxTrees.PipeCommand;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
@@ -320,10 +321,12 @@ public class Parser {
         Command c1AST = parseCommand();
         
         while(currentToken.kind == Token.PIPE){
-            acceptIt();
-            Expression exPipe = parseExpression();
-            accept(Token.THEN);
-            
+          acceptIt();
+          Expression elifExp = parseExpression();
+          accept(Token.THEN);
+
+          PipeCommand pipeCommand = new PipeCommand(elifExp, parseCommand(), commandPos);
+          c1AST = new SequentialCommand(c1AST, pipeCommand, commandPos);
         }
         
         
