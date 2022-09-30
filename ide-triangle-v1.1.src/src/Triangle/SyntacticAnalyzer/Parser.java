@@ -15,79 +15,7 @@
 package Triangle.SyntacticAnalyzer;
 
 import Triangle.ErrorReporter;
-import Triangle.AbstractSyntaxTrees.ActualParameter;
-import Triangle.AbstractSyntaxTrees.ActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.ArrayAggregate;
-import Triangle.AbstractSyntaxTrees.ArrayExpression;
-import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
-import Triangle.AbstractSyntaxTrees.AssignCommand;
-import Triangle.AbstractSyntaxTrees.BinaryExpression;
-import Triangle.AbstractSyntaxTrees.CallCommand;
-import Triangle.AbstractSyntaxTrees.CallExpression;
-import Triangle.AbstractSyntaxTrees.Cases;
-import Triangle.AbstractSyntaxTrees.CharacterExpression;
-import Triangle.AbstractSyntaxTrees.CharacterLiteral;
-import Triangle.AbstractSyntaxTrees.Command;
-import Triangle.AbstractSyntaxTrees.ConstActualParameter;
-import Triangle.AbstractSyntaxTrees.ConstDeclaration;
-import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
-import Triangle.AbstractSyntaxTrees.Declaration;
-import Triangle.AbstractSyntaxTrees.DotVname;
-import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.EmptyCommand;
-import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.Expression;
-import Triangle.AbstractSyntaxTrees.FieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.FormalParameter;
-import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.FuncActualParameter;
-import Triangle.AbstractSyntaxTrees.FuncDeclaration;
-import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
-import Triangle.AbstractSyntaxTrees.Identifier;
-import Triangle.AbstractSyntaxTrees.IfCommand;
-import Triangle.AbstractSyntaxTrees.IfExpression;
-import Triangle.AbstractSyntaxTrees.InitDeclaration;
-import Triangle.AbstractSyntaxTrees.IntegerExpression;
-import Triangle.AbstractSyntaxTrees.IntegerLiteral;
-import Triangle.AbstractSyntaxTrees.LetCommand;
-import Triangle.AbstractSyntaxTrees.LetExpression;
-import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
-import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.NilCommand;
-import Triangle.AbstractSyntaxTrees.Operator;
-import Triangle.AbstractSyntaxTrees.PipeCommand;
-import Triangle.AbstractSyntaxTrees.ProcActualParameter;
-import Triangle.AbstractSyntaxTrees.ProcDeclaration;
-import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
-import Triangle.AbstractSyntaxTrees.Program;
-import Triangle.AbstractSyntaxTrees.RecDeclaration;
-import Triangle.AbstractSyntaxTrees.RecordAggregate;
-import Triangle.AbstractSyntaxTrees.RecordExpression;
-import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SequentialCommand;
-import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
-import Triangle.AbstractSyntaxTrees.SequentialProcFuncDeclaration;
-import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SimpleVname;
-import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.SubscriptVname;
-import Triangle.AbstractSyntaxTrees.TypeDeclaration;
-import Triangle.AbstractSyntaxTrees.TypeDenoter;
-import Triangle.AbstractSyntaxTrees.UnaryExpression;
-import Triangle.AbstractSyntaxTrees.VarActualParameter;
-import Triangle.AbstractSyntaxTrees.VarDeclaration;
-import Triangle.AbstractSyntaxTrees.VarFormalParameter;
-import Triangle.AbstractSyntaxTrees.Vname;
-import Triangle.AbstractSyntaxTrees.VnameExpression;
-import Triangle.AbstractSyntaxTrees.WhileCommand;
+import Triangle.AbstractSyntaxTrees.*;
 
 public class Parser {
 
@@ -115,6 +43,27 @@ public class Parser {
     }
   }
 
+  //Acepta diferentes tokens al mismo tiempo
+  void acceptdifToken (int tokenExpected) throws SyntaxError {
+    if (currentToken.kind == Token.WHILE || currentToken.kind == Token.UNTIL || currentToken.kind == Token.DO || currentToken.kind == Token.FOR) {
+      previousTokenPosition = currentToken.position;
+    } else {
+      syntacticError("\"%\" expected here", Token.spell(Token.WHILE)+'"'
+              +", "+'"'+Token.spell(Token.UNTIL)+'"'+
+              ", "+'"'+Token.spell(Token.DO)+'"'+
+              " or "+'"'+Token.spell(Token.FOR));
+    }
+  }
+  
+  //Acepta diferentes tokens IN and FROM
+  void acceptFromIn (int tokenExpected) throws SyntaxError {
+    if (currentToken.kind == Token.FROM || currentToken.kind == Token.IN) {
+      previousTokenPosition = currentToken.position;
+    } else {
+      syntacticError("\"%\" expected here", Token.spell(Token.FROM)+'"'
+              +"or "+'"'+Token.spell(Token.IN));
+    }
+  }
   void acceptIt() {
     previousTokenPosition = currentToken.position;
     currentToken = lexicalAnalyser.scan();
@@ -355,23 +304,93 @@ public class Parser {
 //      }
 //      break;
      
-    case Token.LOOP:
+     //Adding LOOP -- Nikholas Ocampo
+     case Token.LOOP: 
     {
         acceptIt();
-        Identifier iAST = parseIdentifier();
+        Identifier iAST = null;
+        if(currentToken.kind == Token.IDENTIFIER) {
+              iAST = parseIdentifier();
+        }
+        acceptdifToken(currentToken.kind);
+        if(currentToken.kind == Token.WHILE || currentToken.kind == Token.UNTIL) {
+          int tkn = currentToken.kind;
 
-        if (currentToken.kind == Token.WHILE)
-            {
+            acceptIt();
+            Expression eAST = parseExpression();
+            accept(Token.DO);
+            Command cAST = parseCommand();
+            accept(Token.END);
+            
+            finish(commandPos);
+            commandAST = tkn == Token.WHILE ? new WhileCommand(iAST,eAST, cAST, commandPos):
+                  new LoopUntilCommand(iAST,eAST, cAST, commandPos);
+         }
+        else if (currentToken.kind == Token.DO ){
+            acceptIt();
+            Command cAST = parseCommand();
+            int tkn = currentToken.kind;
+
+            if(currentToken.kind == Token.WHILE || currentToken.kind == Token.UNTIL)
+              acceptIt();
+             else
+              accept(Token.WHILE); // to throw error
+
+            Expression eAST = parseExpression();
+            accept(Token.END);
+
+            finish(commandPos);
+            commandAST = tkn == Token.WHILE ? new LoopDoWhileCommand(iAST,cAST, eAST, commandPos) :
+            new LoopDoUntilCommand(iAST,cAST, eAST, commandPos);
+        }
+        
+        //Adding LOOP FOR --Nikholas Ocampo
+        else if (currentToken.kind == Token.FOR ){
+            acceptIt();
+            Identifier iAST2 = parseIdentifier();
+            
+            
+            acceptFromIn(currentToken.kind);
+            if(currentToken.kind == Token.FROM){
+                acceptIt();
+                Expression eAST = parseExpression();
+                accept(Token.TO);
+                Expression eAST2 = parseExpression();
+
+                acceptdifToken(currentToken.kind);
+                if (currentToken.kind == Token.DO){
+                    acceptIt();
+                    Command cAST = parseCommand();
+                    accept(Token.END);
+
+                    finish(commandPos);
+                    commandAST = new ForDoCommand(iAST,iAST2,eAST,eAST2,cAST,commandPos) ;
+                }
+                else if(currentToken.kind == Token.WHILE || currentToken.kind == Token.UNTIL) {
+                  int tkn = currentToken.kind;
+                  acceptIt();
+                  Expression eAST3 = parseExpression();
+                  accept(Token.DO);
+                  Command cAST = parseCommand();
+                  accept(Token.END);
+
+                  finish(commandPos);
+                  commandAST = tkn == Token.WHILE ? new ForWhileCommand(iAST,iAST2,eAST,eAST2,eAST3,cAST,commandPos) :
+                  new ForUntilCommand(iAST,iAST2,eAST,eAST2,eAST3,cAST,commandPos);
+                }
+            }else if(currentToken.kind == Token.IN){
                 acceptIt();
                 Expression eAST = parseExpression();
                 accept(Token.DO);
                 Command cAST = parseCommand();
                 accept(Token.END);
+
                 finish(commandPos);
-                commandAST = new LoopWhileDoCommand(eAST,cAST,commandPos);
+                commandAST = new ForInCommand(iAST,iAST2,eAST,cAST,commandPos) ;
             }
-        break;
-    }
+        }
+    } 
+    break;
     
         
     case Token.LEAVE:

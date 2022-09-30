@@ -16,76 +16,8 @@ package Triangle.TreeDrawer;
 
 import java.awt.FontMetrics;
 
-import Triangle.AbstractSyntaxTrees.AST;
-import Triangle.AbstractSyntaxTrees.AnyTypeDenoter;
-import Triangle.AbstractSyntaxTrees.ArrayExpression;
-import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
-import Triangle.AbstractSyntaxTrees.AssignCommand;
-import Triangle.AbstractSyntaxTrees.BinaryExpression;
-import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
-import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
-import Triangle.AbstractSyntaxTrees.CallCommand;
-import Triangle.AbstractSyntaxTrees.CallExpression;
-import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
-import Triangle.AbstractSyntaxTrees.CharacterExpression;
-import Triangle.AbstractSyntaxTrees.CharacterLiteral;
-import Triangle.AbstractSyntaxTrees.ConstActualParameter;
-import Triangle.AbstractSyntaxTrees.ConstDeclaration;
-import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
-import Triangle.AbstractSyntaxTrees.DotVname;
-import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.EmptyCommand;
-import Triangle.AbstractSyntaxTrees.EmptyExpression;
-import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
-import Triangle.AbstractSyntaxTrees.FuncActualParameter;
-import Triangle.AbstractSyntaxTrees.FuncDeclaration;
-import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
-import Triangle.AbstractSyntaxTrees.Identifier;
-import Triangle.AbstractSyntaxTrees.IfCommand;
-import Triangle.AbstractSyntaxTrees.IfExpression;
-import Triangle.AbstractSyntaxTrees.InitDeclaration;
-import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
-import Triangle.AbstractSyntaxTrees.IntegerExpression;
-import Triangle.AbstractSyntaxTrees.IntegerLiteral;
-import Triangle.AbstractSyntaxTrees.LetCommand;
-import Triangle.AbstractSyntaxTrees.LetExpression;
-import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
-import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.NilCommand;
-import Triangle.AbstractSyntaxTrees.Operator;
-import Triangle.AbstractSyntaxTrees.PipeCommand;
-import Triangle.AbstractSyntaxTrees.ProcActualParameter;
-import Triangle.AbstractSyntaxTrees.ProcDeclaration;
-import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
-import Triangle.AbstractSyntaxTrees.Program;
-import Triangle.AbstractSyntaxTrees.RecDeclaration;
-import Triangle.AbstractSyntaxTrees.RecordExpression;
-import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SequentialCommand;
-import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
-import Triangle.AbstractSyntaxTrees.SequentialProcFuncDeclaration;
-import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SimpleVname;
-import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.SubscriptVname;
-import Triangle.AbstractSyntaxTrees.TypeDeclaration;
-import Triangle.AbstractSyntaxTrees.UnaryExpression;
-import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
-import Triangle.AbstractSyntaxTrees.VarActualParameter;
-import Triangle.AbstractSyntaxTrees.VarDeclaration;
-import Triangle.AbstractSyntaxTrees.VarFormalParameter;
-import Triangle.AbstractSyntaxTrees.Visitor;
-import Triangle.AbstractSyntaxTrees.VnameExpression;
-import Triangle.AbstractSyntaxTrees.WhileCommand;
+import Triangle.AbstractSyntaxTrees.*;
+
 
 public class LayoutVisitor implements Visitor {
 
@@ -138,8 +70,65 @@ public class LayoutVisitor implements Visitor {
   public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object obj) {
     return layoutBinary("LoopWhileDoCom.", ast.E, ast.C);
   }
+  
+  // Adding LoopUntilCommand -- Nikholas Ocampo
+  public Object visitLoopUntilCommand(LoopUntilCommand ast, Object obj) {
+    if(ast.I != null){
+        return layoutTernary("LoopUntilCommand.",ast.I, ast.E, ast.C);
+    }
+    return layoutBinary("LoopUntilCommand.", ast.E, ast.C);
+    
+  }
+  
+  // Adding LoopDoUntilCommand -- Nikholas Ocampo
+  public Object visitLoopDoUntilCommand(LoopDoUntilCommand ast, Object obj) {
+       if(ast.I != null){
+        return layoutTernary("LoopDoUntilCommand.",ast.I, ast.E, ast.C);
+    }
+    return layoutBinary("LoopDoUntilCommand.", ast.E, ast.C);
+    
+  }
 
-
+  // Adding LoopDoWhileCommand -- Nikholas Ocampo
+  public Object visitLoopDoWhileCommand(LoopDoWhileCommand ast, Object obj) {
+    if(ast.I != null){
+        return layoutTernary("LoopDoWhileCommand.",ast.I, ast.E, ast.C);
+    }
+    return layoutBinary("LoopDoWhileCommand.", ast.E, ast.C);
+  }
+  
+  // Adding ForUntilCommand -- Nikholas Ocampo
+  public Object visitForUntilCommand(ForUntilCommand ast, Object obj) {
+    if(ast.I != null){
+        return layoutSenary("ForUntilCommand.",ast.I,ast.I2,ast.E, ast.E2,ast.E3, ast.C);
+    }
+    return layoutQuinary("ForUntilCommand.",ast.I2,ast.E, ast.E2,ast.E3, ast.C);
+  }
+  
+  // Adding ForWhileCommand -- Nikholas Ocampo
+    public Object visitForWhileCommand(ForWhileCommand ast, Object obj) {
+    if(ast.I != null){
+        return layoutSenary("ForWhileCommand.",ast.I,ast.I2,ast.E, ast.E2,ast.E3, ast.C);
+    }
+    return layoutQuinary("ForWhileCommand.",ast.I2,ast.E, ast.E2,ast.E3, ast.C);
+  }
+    
+    // Adding ForDoCommand -- Nikholas Ocampo
+  public Object visitForDoCommand(ForDoCommand ast, Object obj) {
+    if(ast.I != null){
+        return layoutQuinary("ForDoCommand.",ast.I,ast.I2,ast.E, ast.E2, ast.C);
+    }
+    return layoutQuaternary("ForDoCommand.",ast.I2,ast.E, ast.E2, ast.C);
+  }
+      
+  // Adding ForInCommand -- Nikholas Ocampo
+  public Object visitForInCommand(ForInCommand ast, Object obj) {
+    if(ast.I != null){
+        return layoutQuaternary("ForInCommand.",ast.I,ast.I2, ast.E, ast.C);
+    }
+    return layoutTernary("ForInCommand.",ast.I2, ast.E, ast.C);
+  }
+     
   // Expressions
   public Object visitArrayExpression(ArrayExpression ast, Object obj) {
     return layoutUnary("ArrayExpr.", ast.AA);
@@ -438,6 +427,35 @@ public class LayoutVisitor implements Visitor {
     return dt;
   }
 
+    //Adding  layoutQuinary -- Nikholas Ocampo
+  private DrawingTree layoutQuinary (String name, AST child1, AST child2,
+                                    AST child3, AST child4,AST child5) {
+    DrawingTree dt = layoutCaption(name);
+    DrawingTree d1 = (DrawingTree) child1.visit(this, null);
+    DrawingTree d2 = (DrawingTree) child2.visit(this, null);
+    DrawingTree d3 = (DrawingTree) child3.visit(this, null);
+    DrawingTree d4 = (DrawingTree) child4.visit(this, null);
+    DrawingTree d5 = (DrawingTree) child5.visit(this, null);
+    dt.setChildren(new DrawingTree[] {d1, d2, d3, d4, d5});
+    attachParent(dt, join(dt));
+    return dt;
+  }
+  
+  //Adding  layoutSenary -- Nikholas Ocampo
+  private DrawingTree layoutSenary (String name, AST child1, AST child2,
+                                    AST child3, AST child4,AST child5,AST child6) {
+    DrawingTree dt = layoutCaption(name);
+    DrawingTree d1 = (DrawingTree) child1.visit(this, null);
+    DrawingTree d2 = (DrawingTree) child2.visit(this, null);
+    DrawingTree d3 = (DrawingTree) child3.visit(this, null);
+    DrawingTree d4 = (DrawingTree) child4.visit(this, null);
+    DrawingTree d5 = (DrawingTree) child5.visit(this, null);
+    DrawingTree d6 = (DrawingTree) child6.visit(this, null);
+    dt.setChildren(new DrawingTree[] {d1, d2, d3, d4, d5,d6});
+    attachParent(dt, join(dt));
+    return dt;
+  }
+  
   private void attachParent(DrawingTree dt, int w) {
     int y = PARENT_SEP;
     int x2 = (w - dt.width) / 2 - BORDER;

@@ -1,0 +1,3 @@
+repeat while 2=2 do nothing ; nothing leave i + 5 end
+
+! Error: leave no es seguido por un comando, sino por una expresión

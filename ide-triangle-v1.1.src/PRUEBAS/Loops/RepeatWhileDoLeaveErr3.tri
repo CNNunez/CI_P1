@@ -1,0 +1,3 @@
+repeat while 2=2 do nothing ; nothing leave type end
+
+! Error: leave no es seguido por un iniciador de comando

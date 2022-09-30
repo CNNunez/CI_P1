@@ -25,6 +25,15 @@ public interface Visitor {
   public abstract Object visitPipeCommand(PipeCommand ast, Object o);// N
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
+  public abstract Object visitLoopUntilCommand(LoopUntilCommand ast, Object o);
+  public abstract Object visitLoopDoUntilCommand(LoopDoUntilCommand ast, Object o); //Adding DoUntilCommand -- Nikholas Ocampo
+  public abstract Object visitLoopDoWhileCommand(LoopDoWhileCommand ast, Object o); //Adding DoWhileCommand -- Nikholas Ocampo
+ 
+  public abstract Object visitForUntilCommand(ForUntilCommand ast, Object o); //Adding ForUntilCommand -- Nikholas Ocampo
+  public abstract Object visitForWhileCommand(ForWhileCommand ast, Object o); //Adding ForWhileCommand -- Nikholas Ocampo
+  public abstract Object visitForDoCommand(ForDoCommand ast, Object o); //Adding ForDoCommand -- Nikholas Ocampo
+  public abstract Object visitForInCommand(ForInCommand ast, Object o); //Adding ForInCommand -- Nikholas Ocampo
+    
   public abstract Object visitNilCommand(NilCommand ast, Object o); //Adding NIL command to be sure its visited -- Jhonny Diaz
   public abstract Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object o);//Adding loop while do command to be sure its visited -- Jhonny Diaz
 

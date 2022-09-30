@@ -1,0 +1,3 @@
+repeat do nothing ; nothing until 4=4 leave const end
+
+! Error: leave seguido por algo que no inicia comando

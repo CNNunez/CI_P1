@@ -4,76 +4,7 @@
  */
 
 package Core.Visitors;
-import Triangle.AbstractSyntaxTrees.AST;
-import Triangle.AbstractSyntaxTrees.AnyTypeDenoter;
-import Triangle.AbstractSyntaxTrees.ArrayExpression;
-import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
-import Triangle.AbstractSyntaxTrees.AssignCommand;
-import Triangle.AbstractSyntaxTrees.BinaryExpression;
-import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
-import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
-import Triangle.AbstractSyntaxTrees.CallCommand;
-import Triangle.AbstractSyntaxTrees.CallExpression;
-import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
-import Triangle.AbstractSyntaxTrees.CharacterExpression;
-import Triangle.AbstractSyntaxTrees.CharacterLiteral;
-import Triangle.AbstractSyntaxTrees.ConstActualParameter;
-import Triangle.AbstractSyntaxTrees.ConstDeclaration;
-import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
-import Triangle.AbstractSyntaxTrees.DotVname;
-import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.EmptyCommand;
-import Triangle.AbstractSyntaxTrees.EmptyExpression;
-import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
-import Triangle.AbstractSyntaxTrees.FuncActualParameter;
-import Triangle.AbstractSyntaxTrees.FuncDeclaration;
-import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
-import Triangle.AbstractSyntaxTrees.Identifier;
-import Triangle.AbstractSyntaxTrees.IfCommand;
-import Triangle.AbstractSyntaxTrees.IfExpression;
-import Triangle.AbstractSyntaxTrees.InitDeclaration;
-import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
-import Triangle.AbstractSyntaxTrees.IntegerExpression;
-import Triangle.AbstractSyntaxTrees.IntegerLiteral;
-import Triangle.AbstractSyntaxTrees.LetCommand;
-import Triangle.AbstractSyntaxTrees.LetExpression;
-import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
-import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.NilCommand;
-import Triangle.AbstractSyntaxTrees.Operator;
-import Triangle.AbstractSyntaxTrees.PipeCommand;
-import Triangle.AbstractSyntaxTrees.ProcActualParameter;
-import Triangle.AbstractSyntaxTrees.ProcDeclaration;
-import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
-import Triangle.AbstractSyntaxTrees.Program;
-import Triangle.AbstractSyntaxTrees.RecDeclaration;
-import Triangle.AbstractSyntaxTrees.RecordExpression;
-import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SequentialCommand;
-import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
-import Triangle.AbstractSyntaxTrees.SequentialProcFuncDeclaration;
-import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SimpleVname;
-import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.SubscriptVname;
-import Triangle.AbstractSyntaxTrees.TypeDeclaration;
-import Triangle.AbstractSyntaxTrees.UnaryExpression;
-import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
-import Triangle.AbstractSyntaxTrees.VarActualParameter;
-import Triangle.AbstractSyntaxTrees.VarDeclaration;
-import Triangle.AbstractSyntaxTrees.VarFormalParameter;
-import Triangle.AbstractSyntaxTrees.Visitor;
-import Triangle.AbstractSyntaxTrees.VnameExpression;
-import Triangle.AbstractSyntaxTrees.WhileCommand;
+import Triangle.AbstractSyntaxTrees.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
@@ -134,6 +65,65 @@ public class TreeVisitor implements Visitor {
     public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object obj) {
         return(createBinary("LoopWhileDo Command", ast.E, ast.C));
     }
+    
+    //Adding LoopUntilCommand -- Nikholas Ocampo
+    public Object visitLoopUntilCommand(LoopUntilCommand ast, Object obj) {
+           if(ast.I != null){
+        return(createTernary("LoopUntil Command",ast.I, ast.E, ast.C));
+    } 
+        return(createBinary("LoopUntil Command", ast.E, ast.C));
+    }
+    
+        //Adding LoopDoUntilCommand -- Nikholas Ocampo
+    public Object visitLoopDoUntilCommand(LoopDoUntilCommand ast, Object obj) {
+        if(ast.I != null){
+            return(createTernary("LoopDoUntil Command",ast.I, ast.E, ast.C));
+        } 
+        return(createBinary("LoopDoUntil Command", ast.E, ast.C));
+    }
+    
+    
+        //Adding LoopDoWhileCommand -- Nikholas Ocampo
+    public Object visitLoopDoWhileCommand(LoopDoWhileCommand ast, Object obj) {
+        if(ast.I != null){
+            return(createTernary("LoopDoWhile Command",ast.I, ast.E, ast.C));
+        } 
+        return(createBinary("LoopDoWhile Command", ast.E, ast.C));
+    }
+    
+    // Adding ForUntilCommand -- Nikholas Ocampo
+  public Object visitForUntilCommand(ForUntilCommand ast, Object obj) {
+    if(ast.I != null){
+        return createSenary("ForUntil Command.",ast.I,ast.I2,ast.E, ast.E2,ast.E3, ast.C);
+    }
+    return createQuinary("ForUntil Command.",ast.I2,ast.E, ast.E2,ast.E3, ast.C);
+  }
+  
+  // Adding ForWhileCommand -- Nikholas Ocampo
+    public Object visitForWhileCommand(ForWhileCommand ast, Object obj) {
+    if(ast.I != null){
+        return createSenary("ForWhile Command.",ast.I,ast.I2,ast.E, ast.E2,ast.E3, ast.C);
+    }
+    return createQuinary("ForWhile Command.",ast.I2,ast.E, ast.E2,ast.E3, ast.C);
+  }
+    
+    // Adding ForDoCommand -- Nikholas Ocampo
+  public Object visitForDoCommand(ForDoCommand ast, Object obj) {
+    if(ast.I != null){
+        return createQuinary("ForDo Command.",ast.I,ast.I2,ast.E, ast.E2, ast.C);
+    }
+    return createQuaternary("ForDo Command.",ast.I2,ast.E, ast.E2, ast.C);
+  }
+      
+  // Adding ForInCommand -- Nikholas Ocampo
+  public Object visitForInCommand(ForInCommand ast, Object obj) {
+    if(ast.I != null){
+        return createQuaternary("ForIn Command.",ast.I,ast.I2, ast.E, ast.C);
+    }
+    return createTernary("ForIn Command.",ast.I2, ast.E, ast.C);
+  }
+    
+            
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Expressions ">
@@ -465,6 +455,28 @@ public class TreeVisitor implements Visitor {
         t.add((DefaultMutableTreeNode)child3.visit(this, null));
         t.add((DefaultMutableTreeNode)child4.visit(this, null));
         
+        return(t);             
+    }
+    
+    public DefaultMutableTreeNode createQuinary(String caption, AST child1, AST child2, AST child3, AST child4, AST child5) {
+        DefaultMutableTreeNode t = new DefaultMutableTreeNode(caption);
+        t.add((DefaultMutableTreeNode)child1.visit(this, null));
+        t.add((DefaultMutableTreeNode)child2.visit(this, null));
+        t.add((DefaultMutableTreeNode)child3.visit(this, null));
+        t.add((DefaultMutableTreeNode)child4.visit(this, null));
+        t.add((DefaultMutableTreeNode)child5.visit(this, null));
+
+        return(t);             
+    }
+        
+    public DefaultMutableTreeNode createSenary(String caption, AST child1, AST child2, AST child3, AST child4, AST child5, AST child6) {
+        DefaultMutableTreeNode t = new DefaultMutableTreeNode(caption);
+        t.add((DefaultMutableTreeNode)child1.visit(this, null));
+        t.add((DefaultMutableTreeNode)child2.visit(this, null));
+        t.add((DefaultMutableTreeNode)child3.visit(this, null));
+        t.add((DefaultMutableTreeNode)child4.visit(this, null));
+        t.add((DefaultMutableTreeNode)child5.visit(this, null));
+        t.add((DefaultMutableTreeNode)child6.visit(this, null));
         return(t);             
     }
     // </editor-fold>
