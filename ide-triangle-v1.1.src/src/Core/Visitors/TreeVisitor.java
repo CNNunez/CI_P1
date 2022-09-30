@@ -104,6 +104,8 @@ public class TreeVisitor implements Visitor {
     public Object visitEmptyCommand(EmptyCommand ast, Object o) {
         return(createNullary("Empty Command"));
     }
+    
+    //Implementing the visit to NIL -- Jhonny Diaz
     public Object visitNilCommand(NilCommand ast, Object o) {
         return(createNullary("Nil Command"));
     }
@@ -124,7 +126,7 @@ public class TreeVisitor implements Visitor {
         return(createBinary("While Command", ast.E, ast.C));
     }
     
-    
+    //Implementing the visit to LOOP WHILE DO COMMAND -- Jhonny Diaz
     public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object obj) {
         return(createBinary("LoopWhileDo Command", ast.E, ast.C));
     }
