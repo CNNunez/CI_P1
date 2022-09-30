@@ -2,13 +2,13 @@ let
 	rec
 		func doble(var i : Integer) : Integer ~
 			triplicar(i)/3*2 ! sintácticamente bien, contextualmente mal
-		and
+		|
 		proc triplicar(var i : Integer) ~
-			i init i + doble(i)
+			i := i + doble(i)
 		end
-		and
+		|
 		proc duplicar(var i : Integer) ~
-			i init doble(i)
+			i := doble(i)
 		end
 	end
 in

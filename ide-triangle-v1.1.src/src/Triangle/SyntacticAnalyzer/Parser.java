@@ -775,11 +775,11 @@ Declaration parseProcFuncDeclaration() throws SyntaxError {
     
     //It uses a do-while loop because it need to do all steps at least 1 time
     do {
-        acceptIt();
+        accept(Token.PIPE);
+        //acceptIt();
         Declaration d2AST = parseSingleProcFuncDeclaration();
         finish(declarationPos);
-        declarationAST = new SequentialProcFuncDeclaration(declarationAST, d2AST,
-        declarationPos);
+        declarationAST = new SequentialProcFuncDeclaration(declarationAST, d2AST,declarationPos);
     }while(currentToken.kind == Token.PIPE);
     
     return declarationAST;

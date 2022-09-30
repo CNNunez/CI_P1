@@ -1,11 +1,11 @@
 let
-	recursive
+	rec
 		proc doble ( var i : Integer ) ~
 			i := i*2
 		end
 	end
 in
-	nothing 
+	nil 
 end
 
 ! Error: Solo hay una alternativa

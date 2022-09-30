@@ -1,9 +1,9 @@
 let
-	recursive
+	rec
 		
 	end
 in
-	nothing 
+	nil 
 end
 
 ! Error: No hay alternativas

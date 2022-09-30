@@ -1,13 +1,13 @@
 let
-	recursive
+	rec
 		func doble(var i : Integer) : Integer ~
 			triplicar(i)/3*2
-		and
 		proc triplicar(var i : Integer) ~
 			i := i + doble(i)
 		end
+	end
 in
-	nothing 
+	nil 
 end
 
-! Error: Falta el end del recursive
+! Error: Falta el "|" que separe los proc-funcs

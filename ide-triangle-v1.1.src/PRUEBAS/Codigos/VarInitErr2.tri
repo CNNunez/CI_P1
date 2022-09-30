@@ -1,6 +1,6 @@
 let
-	var j := 'c';
-	var i := 4 : Integer; 
+	var j init 'c';
+	var i init 4 : Integer; 
 	var y : Integer
 in
 	nothing 

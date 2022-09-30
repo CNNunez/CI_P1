@@ -1,5 +1,5 @@
 let 
-	private
+	local
 		var a := 5;
 		var b := 15
 	! in falta, reporta error porque espera ; o in
@@ -10,4 +10,4 @@ in
 	putint(c)
 end
 
-! Error: Falta el in del private
+! Error: Falta el in del local
