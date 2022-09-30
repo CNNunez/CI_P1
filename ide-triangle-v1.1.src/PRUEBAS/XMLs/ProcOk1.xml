@@ -2,6 +2,7 @@
 <Program>
 <LetCommand>
 <Rec>
+<ProcFuncs>
 <ProcDeclaration>
 <Identifier value="p"/>
 <MultipleFormalParameterSequence>
@@ -42,6 +43,47 @@
 <NilCommand/>
 </SequentialCommand>
 </ProcDeclaration>
+<ProcDeclaration>
+<Identifier value="c"/>
+<MultipleFormalParameterSequence>
+<VarFormalParameter>
+<Identifier value="num3"/>
+<SimpleTypeDenoter>
+<Identifier value="Integer"/>
+</SimpleTypeDenoter>
+</VarFormalParameter>
+<SingleFormalParameterSequence>
+<ConstFormalParameter>
+<Identifier value="num4"/>
+<SimpleTypeDenoter>
+<Identifier value="Integer"/>
+</SimpleTypeDenoter>
+</ConstFormalParameter>
+</SingleFormalParameterSequence>
+</MultipleFormalParameterSequence>
+<SequentialCommand>
+<AssignCommand>
+<SimpleVname>
+<Identifier value="num3"/>
+</SimpleVname>
+<BinaryExpression>
+<VnameExpression>
+<SimpleVname>
+<Identifier value="num3"/>
+</SimpleVname>
+</VnameExpression>
+<Operator value="*"/>
+<VnameExpression>
+<SimpleVname>
+<Identifier value="num4"/>
+</SimpleVname>
+</VnameExpression>
+</BinaryExpression>
+</AssignCommand>
+<NilCommand/>
+</SequentialCommand>
+</ProcDeclaration>
+</ProcFuncs>
 </Rec>
 <NilCommand/>
 </LetCommand>

@@ -50,6 +50,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
@@ -110,11 +111,13 @@ public class LayoutVisitor implements Visitor {
   public Object visitEmptyCommand(EmptyCommand ast, Object obj) {
     return layoutNullary("EmptyCom.");
   }
+  
+  // Adding Nil Command -- Jhonny Diaz
   public Object visitNilCommand(NilCommand ast, Object obj) {
     return layoutNullary("NilCom.");
   }
   
-  // N
+  // Adding PipeCommand -- Nikolas Ocampo
   public Object visitPipeCommand(PipeCommand ast, Object obj) {
     return layoutBinary("PipeCom.", ast.E, ast.C1);
   }
@@ -123,6 +126,7 @@ public class LayoutVisitor implements Visitor {
     return layoutTernary("IfCom.", ast.E, ast.C1, ast.C2);
   }
 
+  // Adding LET Command -- Jhonny Diaz
   public Object visitLetCommand(LetCommand ast, Object obj) {
     return layoutBinary("LetCom.", ast.D, ast.C);
   }
@@ -135,6 +139,7 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("WhileCom.", ast.E, ast.C);
   }
   
+  // Adding loop while do command -- Jhonny Diaz
   public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object obj) {
     return layoutBinary("LoopWhileDoCom.", ast.E, ast.C);
   }
@@ -560,7 +565,9 @@ public class LayoutVisitor implements Visitor {
 
     return r;
   }
-
+    
+  
+    //Implementing the new methods I have created, it's just to solve problems in project -- Jhonny Diaz
     @Override
     public Object visitInitDeclaration(InitDeclaration ast, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -573,6 +580,11 @@ public class LayoutVisitor implements Visitor {
 
     @Override
     public Object visitRecDeclaration(RecDeclaration ast, Object o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

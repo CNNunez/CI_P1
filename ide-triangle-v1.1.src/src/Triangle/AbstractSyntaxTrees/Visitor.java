@@ -22,7 +22,7 @@ public interface Visitor {
   public abstract Object visitEmptyCommand(EmptyCommand ast, Object o);
   public abstract Object visitIfCommand(IfCommand ast, Object o);
   public abstract Object visitLetCommand(LetCommand ast, Object o);
-  public abstract Object visitPipeCommand(PipeCommand ast, Object o);// N
+  public abstract Object visitPipeCommand(PipeCommand ast, Object o);// Adding PipeCommand -- Nikolas Ocampo
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
   public abstract Object visitNilCommand(NilCommand ast, Object o); //Adding NIL command to be sure its visited -- Jhonny Diaz
@@ -54,6 +54,7 @@ public interface Visitor {
   public abstract Object visitInitDeclaration(InitDeclaration ast, Object o);//Adding Init declaration to be sure its visited -- Jhonny Diaz
   public abstract Object visitSequentialProcFuncDeclaration(SequentialProcFuncDeclaration ast, Object o);//Adding procfunc declaration to be sure its visited -- Jhonny Diaz
   public abstract Object visitRecDeclaration(RecDeclaration ast, Object o);//Adding rec declaration to be sure its visited -- Jhonny Diaz
+  public abstract Object visitLocalDeclaration(LocalDeclaration ast, Object o);//Adding local declaration to be sure its visited -- Jhonny Diaz
 
   // Array Aggregates
   public abstract Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object o);

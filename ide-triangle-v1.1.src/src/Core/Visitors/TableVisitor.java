@@ -38,6 +38,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
@@ -334,6 +335,12 @@ public class TableVisitor implements Visitor {
   }
   //Implementing the visit to REC -- Jhonny Diaz
   public Object visitRecDeclaration(RecDeclaration ast, Object o) {   
+      ast.I.visit(this, null);
+      return(null);
+  }
+  
+  //Implementing the visit to LOCAL -- Jhonny Diaz
+  public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {   
       ast.I.visit(this, null);
       return(null);
   }

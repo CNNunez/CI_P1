@@ -33,6 +33,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
@@ -634,6 +635,16 @@ public class WriterVisitor implements Visitor {
         writeLineHTML("<Rec>");
         ast.I.visit(this, null);
         writeLineHTML("</Rec>");
+        return null;
+    }
+    
+    //Adding local Command to XML -- Jhonny Diaz
+    @Override
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
+        writeLineHTML("<Local>");
+        ast.I.visit(this, null);
+//        ast.J.visit(this, null);
+        writeLineHTML("</Local>");
         return null;
     }
 

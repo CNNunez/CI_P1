@@ -58,6 +58,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
@@ -118,11 +119,12 @@ public final class Encoder implements Visitor {
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {
     return null;
   }
+  //Adding Nil command -- Jhonny Diaz
   public Object visitNilCommand(NilCommand ast, Object o) {
     return null;
   }
   
-  // N
+  // Adding PipeCommand -- Nikolas Ocampo
   public Object visitPipeCommand(PipeCommand ast, Object o) {
     return null;
   }
@@ -1029,6 +1031,11 @@ public final class Encoder implements Visitor {
 
     @Override
     public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
