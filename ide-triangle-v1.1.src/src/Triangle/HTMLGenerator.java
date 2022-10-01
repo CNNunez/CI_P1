@@ -5,7 +5,7 @@ package Triangle;
 
 /**
  * This class will be use to generate the HTML file containing the source code with the specified format
- * @author Caro Jhonny Nikko
+ * @author Carolina Narvaez
  */
 
 import java.awt.Desktop;
@@ -21,10 +21,9 @@ public class HTMLGenerator {
     public ArrayList<Character> specialChars;
     
     // Init
-    public HTMLGenerator() throws Exception{
-        sourceFile = "source2.tri";
+    public HTMLGenerator(String filePath) throws Exception{
         fileExtention = ".html";
-        newFileName = getNewFileName(sourceFile);
+        newFileName = getNewFileName(filePath);
         
         
         specialChars =  new ArrayList<>(Arrays.asList('+','-','*','=','<','>','&','@','%','^','?','\\'));
@@ -37,6 +36,7 @@ public class HTMLGenerator {
         
         writeToFile(newFileName, textFormat('1'), true);
         writeToFile(newFileName, textFormat('!'), true);
+        writeToFile(newFileName, filePath.replace(".tri", ".html"), true);
         
         
         closeFile(newFileName);
@@ -45,9 +45,8 @@ public class HTMLGenerator {
     }
     
     // Methods
-    public String getNewFileName(String sourceFileName){
-        String newName = (new StringBuilder()).append(sourceFileName.substring(0, sourceFileName.lastIndexOf("."))).append(fileExtention).toString();
-        return newName;
+    public String getNewFileName(String filePath){
+        return filePath.replace(".tri", ".html");
     }
     
     // This methods will let us know the type of char we are analyzing
@@ -87,16 +86,16 @@ public class HTMLGenerator {
     }
     
     
-    // Method to set the text forma  -- needs more work
+    // Method to set the text format  -- needs more work
     public String textFormat(char c){
         String text = "";
         
         if (isNumber(c)){
-            text = text + "<p style=\"color:blue;\">" + c + "</p>";
+            text = text + "<p>" + "<b style=\"color:blue;\">" + c + "</b>";
         }
         
         if (c == '!'){
-            text = text + "<p style=\"color:green;\">" + c + "</p>";
+            text = text + "<b style=\"color:green;\">" + c + "</b></p>";
         }
         
         return text;
