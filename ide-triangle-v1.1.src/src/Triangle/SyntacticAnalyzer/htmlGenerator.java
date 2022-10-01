@@ -1,7 +1,9 @@
 /*
- * HTML Generator
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package Triangle;
+package Triangle.SyntacticAnalyzer;
 
 /**
  * This class will be use to generate the HTML file containing the source code with the specified format
@@ -13,33 +15,31 @@ import java.util.*;
 import java.io.*;
 
 
-public class HTMLGenerator {
+public class htmlGenerator {
     // Attributes
     private String sourceFile;
-    private String newFileName;
+    private String fileName;
     private String fileExtention;
-    public ArrayList<Character> specialChars;
+    public StringBuffer HTMLText;
     
     // Init
-    public HTMLGenerator(String filePath) throws Exception{
+    public htmlGenerator(String filename) throws Exception{
         fileExtention = ".html";
-        newFileName = getNewFileName(filePath);
+        fileName = getNewFileName(filename);
+        HTMLText = new StringBuffer("");
         
-        
-        specialChars =  new ArrayList<>(Arrays.asList('+','-','*','=','<','>','&','@','%','^','?','\\'));
         
         
         // Pruebas
-        File f = createFile(newFileName);
-        writeToFile(newFileName, "Mi codigo va aqui!", true);
+        File f = createFile(fileName);
+        writeToFile("Mi codigo va aqui!", true);
         
         
-        writeToFile(newFileName, textFormat('1'), true);
-        writeToFile(newFileName, textFormat('!'), true);
-        writeToFile(newFileName, filePath.replace(".tri", ".html"), true);
+        writeToFile(textFormat('1'), true);
+        writeToFile(textFormat('!'), true);
+        writeToFile(filename.replace(".tri", ".html"), true);
         
-        
-        closeFile(newFileName);
+        //closeFile(newFileName);
         
         //Desktop.getDesktop().browse(f.toURI());
     }
@@ -58,18 +58,10 @@ public class HTMLGenerator {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     }
 
-    public boolean isSpecial(char s) {
-        for (char i : specialChars){
-            if (s == i){
-                return true;
-            }
-        }
-        return false;
-    }
     
     
     //Methods use to Create, edit and close the HTML file
-    public void writeToFile(String fileName, String text, boolean isAppend) throws Exception{
+    public void writeToFile(String text, boolean isAppend) throws Exception{
         FileWriter writer = new FileWriter(fileName, isAppend);
         writer.write(text);
         writer.close();
@@ -77,12 +69,13 @@ public class HTMLGenerator {
     
     public File createFile(String fileName) throws Exception{
         File file = new File(fileName);
-        writeToFile(fileName, "<html><body><h1>Result</h1>", false);
+        writeToFile("<html><body><h1>Result</h1>", false);
         return file;
     }
     
-    public void closeFile(String fileName) throws Exception{
-        writeToFile(fileName, "</body></html>", true);
+    public void closeFile() throws Exception{
+        writeToFile(HTMLText.toString(), true);
+        writeToFile("</body></html>", true);
     }
     
     

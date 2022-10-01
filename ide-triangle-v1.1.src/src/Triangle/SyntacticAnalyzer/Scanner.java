@@ -22,6 +22,7 @@ public final class Scanner {
 
   private char currentChar;
   private StringBuffer currentSpelling;
+  private StringBuffer sentence;                    // added by Carolina Narvaez
   private boolean currentlyScanningToken;
 
   private boolean isLetter(char c) {
@@ -48,6 +49,7 @@ public final class Scanner {
     sourceFile = source;
     currentChar = sourceFile.getSource();
     debug = false;
+    sentence = new StringBuffer("<p>");
   }
 
   public void enableDebugging() {
@@ -59,165 +61,195 @@ public final class Scanner {
 
   private void takeIt() {
     if (currentlyScanningToken)
-      currentSpelling.append(currentChar);
+        currentSpelling.append(currentChar);
     currentChar = sourceFile.getSource();
+    //sentence.append(currentChar);
   }
 
   // scanSeparator skips a single separator.
 
-  private void scanSeparator() {
-    switch (currentChar) {
-    case '!':
-      {
-        takeIt();
-        while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT))
-          takeIt();
-        if (currentChar == SourceFile.EOL)
-          takeIt();
-      }
-      break;
+    private void scanSeparator() {
+        switch (currentChar) {
+            case '!':
+                sentence.append("<p><b style=\"color:lightgreen;\">");          //added by Carolina Narvaez
+                sentence.append(currentChar);                                   //added by Carolina Narvaez
+                takeIt();
+                while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT)){
+                    sentence.append(currentChar);                               //added by Carolina Narvaez
+                    takeIt();
+                }
+                if (currentChar == SourceFile.EOL)
+                    sentence.append("</b></p><p>");                             //added by Carolina Narvaez
+                    takeIt();
+                break;
 
-    case ' ': case '\n': case '\r': case '\t':
-      takeIt();
-      break;
+            case ' ': case '\n': case '\r': case '\t':
+                sentence.append(currentChar);                                   //added by Carolina Narvaez
+                sentence.append("</p><p>");                                     //added by Carolina Narvaez
+                takeIt();
+                break;
+        }
     }
-  }
 
-  private int scanToken() {
+    private int scanToken() {
 
-    switch (currentChar) {
+        switch (currentChar) {
 
-    case 'a':  case 'b':  case 'c':  case 'd':  case 'e':
-    case 'f':  case 'g':  case 'h':  case 'i':  case 'j':
-    case 'k':  case 'l':  case 'm':  case 'n':  case 'o':
-    case 'p':  case 'q':  case 'r':  case 's':  case 't':
-    case 'u':  case 'v':  case 'w':  case 'x':  case 'y':
-    case 'z':
-    case 'A':  case 'B':  case 'C':  case 'D':  case 'E':
-    case 'F':  case 'G':  case 'H':  case 'I':  case 'J':
-    case 'K':  case 'L':  case 'M':  case 'N':  case 'O':
-    case 'P':  case 'Q':  case 'R':  case 'S':  case 'T':
-    case 'U':  case 'V':  case 'W':  case 'X':  case 'Y':
-    case 'Z':
-      takeIt();
-      while (isLetter(currentChar) || isDigit(currentChar))
-        takeIt();
-      return Token.IDENTIFIER;
+            case 'a':  case 'b':  case 'c':  case 'd':  case 'e':
+            case 'f':  case 'g':  case 'h':  case 'i':  case 'j':
+            case 'k':  case 'l':  case 'm':  case 'n':  case 'o':
+            case 'p':  case 'q':  case 'r':  case 's':  case 't':
+            case 'u':  case 'v':  case 'w':  case 'x':  case 'y':
+            case 'z':
+            case 'A':  case 'B':  case 'C':  case 'D':  case 'E':
+            case 'F':  case 'G':  case 'H':  case 'I':  case 'J':
+            case 'K':  case 'L':  case 'M':  case 'N':  case 'O':
+            case 'P':  case 'Q':  case 'R':  case 'S':  case 'T':
+            case 'U':  case 'V':  case 'W':  case 'X':  case 'Y':
+            case 'Z':
+                sentence.append("<b>");                      //added by Carolina Narvaez
+                //takeIt();
+                while (isLetter(currentChar) || isDigit(currentChar)){
+                    sentence.append(currentChar);           //added by Carolina Narvaez
+                    takeIt();
+                }
+                sentence.append("<\b>");                    //added by Carolina Narvaez
 
-    case '0':  case '1':  case '2':  case '3':  case '4':
-    case '5':  case '6':  case '7':  case '8':  case '9':
-      takeIt();
-      while (isDigit(currentChar))
-        takeIt();
-      return Token.INTLITERAL;
+                return Token.IDENTIFIER;
 
-    case '+':  case '-':  case '*': case '/':  case '=':
-    case '<':  case '>':  case '\\':  case '&':  case '@':
-    case '%':  case '^':  case '?':
-      takeIt();
-      while (isOperator(currentChar))
-        takeIt();
-      return Token.OPERATOR;
+            case '0':  case '1':  case '2':  case '3':  case '4':
+            case '5':  case '6':  case '7':  case '8':  case '9':
+                sentence.append("<b style=\"color:blue;\">");//added by Carolina Narvaez
+                //takeIt();
+                while (isDigit(currentChar)){
+                    sentence.append(currentChar);           //added by Carolina Narvaez
+                    takeIt();
+                }
+                sentence.append("<\b>");                    //added by Carolina Narvaez
 
-    case '\'':
-      takeIt();
-      takeIt(); // the quoted character
-      if (currentChar == '\'') {
-      	takeIt();
-        return Token.CHARLITERAL;
-      } else
-        return Token.ERROR;
+                return Token.INTLITERAL;
 
-    case '.':
-      takeIt();
-      return Token.DOT;
+            case '+':  case '-':  case '*': case '/':  case '=':
+            case '<':  case '>':  case '\\':  case '&':  case '@':
+            case '%':  case '^':  case '?':
+              takeIt();
+              while (isOperator(currentChar))
+                takeIt();
+              return Token.OPERATOR;
 
-    case ':':
-      takeIt();
-      if (currentChar == '=') {
-        takeIt();
-        return Token.BECOMES;
-      } else
-        return Token.COLON;
+            case '\'':
+              takeIt();
+              takeIt(); // the quoted character
+              if (currentChar == '\'') {
+                takeIt();
+                return Token.CHARLITERAL;
+              } else
+                return Token.ERROR;
 
-    case ';':
-      takeIt();
-      return Token.SEMICOLON;
+            case '.':
+              takeIt();
+              return Token.DOT;
 
-    case ',':
-      takeIt();
-      return Token.COMMA;
-     
-    // Adding case '|' (pipe) -- Johnny Diaz
-    case '|':
-      takeIt();
-      return Token.PIPE;
+            case ':':
+              takeIt();
+              if (currentChar == '=') {
+                takeIt();
+                return Token.BECOMES;
+              } else
+                return Token.COLON;
 
-    case '~':
-      takeIt();
-      return Token.IS;
+            case ';':
+              takeIt();
+              return Token.SEMICOLON;
 
-    case '(':
-      takeIt();
-      return Token.LPAREN;
+            case ',':
+              takeIt();
+              return Token.COMMA;
 
-    case ')':
-      takeIt();
-      return Token.RPAREN;
+            // Adding case '|' (pipe) -- Johnny Diaz
+            case '|':
+              takeIt();
+              return Token.PIPE;
 
-    case '[':
-      takeIt();
-      return Token.LBRACKET;
+            case '~':
+              takeIt();
+              return Token.IS;
 
-    case ']':
-      takeIt();
-      return Token.RBRACKET;
+            case '(':
+              takeIt();
+              return Token.LPAREN;
 
-    case '{':
-      takeIt();
-      return Token.LCURLY;
+            case ')':
+              takeIt();
+              return Token.RPAREN;
 
-    case '}':
-      takeIt();
-      return Token.RCURLY;
+            case '[':
+              takeIt();
+              return Token.LBRACKET;
 
-    case SourceFile.EOT:
-      return Token.EOT;
+            case ']':
+              takeIt();
+              return Token.RBRACKET;
 
-    default:
-      takeIt();
-      return Token.ERROR;
+            case '{':
+              takeIt();
+              return Token.LCURLY;
+
+            case '}':
+              takeIt();
+              return Token.RCURLY;
+
+            case SourceFile.EOT:
+              return Token.EOT;
+
+            default:
+              takeIt();
+              return Token.ERROR;
+        }
     }
-  }
 
-  public Token scan () {
-      //instanciar clase HTML 
-      //atributo tipo texto donde vamos a agregar todo lo que se escanee
-      // 
-    Token tok;
-    SourcePosition pos;
-    int kind;
+    public Token scan () {
+        //instanciar clase HTML 
+        //atributo tipo texto donde vamos a agregar todo lo que se escanee
+        //
+        //sentence.delete(0, sentence.length()-1);
+        String fileName = sourceFile.fileName;
+        htmlGenerator htmlFile = null;
+        try{
+            htmlFile = new htmlGenerator(fileName);
+        }catch (Exception e) { }
 
-    currentlyScanningToken = false;
-    while (currentChar == '!'
-           || currentChar == ' '
-           || currentChar == '\n'
-           || currentChar == '\r'
-           || currentChar == '\t')
-      scanSeparator();
 
-    currentlyScanningToken = true;
-    currentSpelling = new StringBuffer("");
-    pos = new SourcePosition();
-    pos.start = sourceFile.getCurrentLine();
+        Token tok;
+        SourcePosition pos;
+        int kind;
 
-    kind = scanToken();
+        currentlyScanningToken = false;
+        while (currentChar == '!'
+               || currentChar == ' '
+               || currentChar == '\n'
+               || currentChar == '\r'
+               || currentChar == '\t')
+            scanSeparator();
 
-    pos.finish = sourceFile.getCurrentLine();
-    tok = new Token(kind, currentSpelling.toString(), pos);
-    if (debug)
-      System.out.println(tok);
-    return tok;
-  }
+        currentlyScanningToken = true;
+        currentSpelling = new StringBuffer("");
+        pos = new SourcePosition();
+        pos.start = sourceFile.getCurrentLine();
+
+        kind = scanToken();
+
+        try{
+            sentence.append("</p><p></p>");
+            htmlFile.HTMLText.append(sentence);
+            htmlFile.closeFile();
+        }catch (Exception e) { }
+
+        pos.finish = sourceFile.getCurrentLine();
+        tok = new Token(kind, currentSpelling.toString(), pos);
+        if (debug)
+          System.out.println(tok);
+        return tok;
+    }
 
 }

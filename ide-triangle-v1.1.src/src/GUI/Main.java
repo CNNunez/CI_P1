@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import Triangle.IDECompiler;
-import Triangle.HTMLGenerator;
+import Triangle.SyntacticAnalyzer.htmlGenerator;
 import Core.ExampleFileFilter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
@@ -702,9 +702,9 @@ public class Main extends javax.swing.JFrame {
 
     private void buttonCompileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonCompileMouseClicked
     // This button will be use to generate the HTML file
-        try{
-            new HTMLGenerator(filename);
-        } catch (Exception e) { }
+//        try{
+//            new htmlGenerator(filename);
+//        } catch (Exception e) { }
     }//GEN-LAST:event_buttonCompileMouseClicked
 
     // </editor-fold>    
