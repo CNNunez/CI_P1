@@ -19,10 +19,10 @@ public class Writer {
     try {
       FileWriter fileWriter = new FileWriter(fileName);
 
-      //HTML header
+      //XML and HTML header
       fileWriter.write("<?xml version=\"1.0\" standalone=\"yes\"?>\n");
 
-      WriterVisitor layout = new WriterVisitor(fileWriter);
+      WriterVisitor layout = new WriterVisitor(fileWriter);     // Changed by Carolina Narvaez
       ast.visit(layout, null);
 
       fileWriter.close();

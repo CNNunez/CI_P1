@@ -27,39 +27,15 @@ public class htmlGenerator {
         fileExtention = ".html";
         fileName = getNewFileName(filename);
         HTMLText = new StringBuffer("");
-        
-        
-        
-        // Pruebas
-        File f = createFile(fileName);
-        writeToFile("Mi codigo va aqui!", true);
-        
-        
-        writeToFile(textFormat('1'), true);
-        writeToFile(textFormat('!'), true);
-        writeToFile(filename.replace(".tri", ".html"), true);
-        
-        //closeFile(newFileName);
-        
-        //Desktop.getDesktop().browse(f.toURI());
+        File f = createFile();
     }
     
     // Methods
+    // Get the HTML file name
     public String getNewFileName(String filePath){
         return filePath.replace(".tri", ".html");
     }
-    
-    // This methods will let us know the type of char we are analyzing
-    public boolean isNumber(char n) {
-        return (n >= '0' && n <= '9');
-    }
-    
-    public boolean isAlpha(char c) {
-        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-    }
 
-    
-    
     //Methods use to Create, edit and close the HTML file
     public void writeToFile(String text, boolean isAppend) throws Exception{
         FileWriter writer = new FileWriter(fileName, isAppend);
@@ -67,30 +43,14 @@ public class htmlGenerator {
         writer.close();
     }
     
-    public File createFile(String fileName) throws Exception{
+    public File createFile() throws Exception{
         File file = new File(fileName);
-        writeToFile("<html><body><h1>Result</h1>", false);
+        writeToFile("<!DOCTYPE html><html><head><style>" + ".myDiv {border: 5px outset DodgerBlue;background-color: white; text-align: left;}" + "</style>" + "</head><body><h1>Result</h1><div class=\"myDiv\">", false);
         return file;
     }
     
     public void closeFile() throws Exception{
         writeToFile(HTMLText.toString(), true);
-        writeToFile("</body></html>", true);
-    }
-    
-    
-    // Method to set the text format  -- needs more work
-    public String textFormat(char c){
-        String text = "";
-        
-        if (isNumber(c)){
-            text = text + "<p>" + "<b style=\"color:blue;\">" + c + "</b>";
-        }
-        
-        if (c == '!'){
-            text = text + "<b style=\"color:green;\">" + c + "</b></p>";
-        }
-        
-        return text;
+        writeToFile("</div></body></html>", true);
     }
 }

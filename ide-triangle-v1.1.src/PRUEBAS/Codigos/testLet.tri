@@ -1,5 +1,5 @@
 let
-var i : char
+var i : int
 in
 nil
 end

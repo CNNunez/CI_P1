@@ -63,7 +63,6 @@ public final class Scanner {
     if (currentlyScanningToken)
         currentSpelling.append(currentChar);
     currentChar = sourceFile.getSource();
-    //sentence.append(currentChar);
   }
 
   // scanSeparator skips a single separator.
@@ -71,7 +70,7 @@ public final class Scanner {
     private void scanSeparator() {
         switch (currentChar) {
             case '!':
-                sentence.append("<p><b style=\"color:lightgreen;\">");          //added by Carolina Narvaez
+                sentence.append("<a style=\"color:lightgreen;\">");          //added by Carolina Narvaez
                 sentence.append(currentChar);                                   //added by Carolina Narvaez
                 takeIt();
                 while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT)){
@@ -79,13 +78,19 @@ public final class Scanner {
                     takeIt();
                 }
                 if (currentChar == SourceFile.EOL)
-                    sentence.append("</b></p><p>");                             //added by Carolina Narvaez
+                    sentence.append("</a></p>");                             //added by Carolina Narvaez
                     takeIt();
                 break;
 
-            case ' ': case '\n': case '\r': case '\t':
+            case ' ': case '\r': case '\t':
+                sentence.append("<a>");
                 sentence.append(currentChar);                                   //added by Carolina Narvaez
-                sentence.append("</p><p>");                                     //added by Carolina Narvaez
+                sentence.append("</a>");                                     //added by Carolina Narvaez
+                takeIt();
+                break;
+            
+            case '\n':
+                sentence.append("</p>");
                 takeIt();
                 break;
         }
@@ -107,25 +112,19 @@ public final class Scanner {
             case 'P':  case 'Q':  case 'R':  case 'S':  case 'T':
             case 'U':  case 'V':  case 'W':  case 'X':  case 'Y':
             case 'Z':
-                sentence.append("<b>");                      //added by Carolina Narvaez
-                //takeIt();
+                takeIt();
                 while (isLetter(currentChar) || isDigit(currentChar)){
-                    sentence.append(currentChar);           //added by Carolina Narvaez
                     takeIt();
                 }
-                sentence.append("<\b>");                    //added by Carolina Narvaez
 
                 return Token.IDENTIFIER;
 
             case '0':  case '1':  case '2':  case '3':  case '4':
             case '5':  case '6':  case '7':  case '8':  case '9':
-                sentence.append("<b style=\"color:blue;\">");//added by Carolina Narvaez
-                //takeIt();
+                takeIt();
                 while (isDigit(currentChar)){
-                    sentence.append(currentChar);           //added by Carolina Narvaez
                     takeIt();
                 }
-                sentence.append("<\b>");                    //added by Carolina Narvaez
 
                 return Token.INTLITERAL;
 
@@ -239,16 +238,27 @@ public final class Scanner {
 
         kind = scanToken();
 
-        try{
-            sentence.append("</p><p></p>");
-            htmlFile.HTMLText.append(sentence);
-            htmlFile.closeFile();
-        }catch (Exception e) { }
-
         pos.finish = sourceFile.getCurrentLine();
         tok = new Token(kind, currentSpelling.toString(), pos);
         if (debug)
           System.out.println(tok);
+        
+        // Adding text to HTML                                                  Added by Carolina Narvaez
+        try{
+            if (tok.kind==0 || tok.kind==1){
+                sentence.append("<a style=\"color:blue;\">" + tok.spelling + "</a>");
+            }
+            else if (tok.kind>=4 && tok.kind<=33){
+                sentence.append("<b>" + tok.spelling + "</b>");
+            }
+            else{
+                sentence.append("<a>" + tok.spelling + "</a>");
+                htmlFile.HTMLText.append(sentence);
+            }
+            
+            htmlFile.closeFile();
+        }catch (Exception e) { }
+        
         return tok;
     }
 
