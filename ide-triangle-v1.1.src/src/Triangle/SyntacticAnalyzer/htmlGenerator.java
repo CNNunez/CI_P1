@@ -17,7 +17,6 @@ import java.io.*;
 
 public class htmlGenerator {
     // Attributes
-    private String sourceFile;
     private String fileName;
     private String fileExtention;
     public StringBuffer HTMLText;
@@ -33,7 +32,7 @@ public class htmlGenerator {
     // Methods
     // Get the HTML file name
     public String getNewFileName(String filePath){
-        return filePath.replace(".tri", ".html");
+        return filePath.replace(".tri", fileExtention);
     }
 
     //Methods use to Create, edit and close the HTML file
@@ -43,12 +42,14 @@ public class htmlGenerator {
         writer.close();
     }
     
+    // Method to create the actual HTML file with the corresponding header formatting
     public File createFile() throws Exception{
         File file = new File(fileName);
         writeToFile("<!DOCTYPE html><html><head><style>" + ".myDiv {border: 5px outset DodgerBlue;background-color: white; text-align: left;}" + "</style>" + "</head><body><h1>Result</h1><div class=\"myDiv\">", false);
         return file;
     }
     
+    // Method to close de HTML file
     public void closeFile() throws Exception{
         writeToFile(HTMLText.toString(), true);
         writeToFile("</div></body></html>", true);

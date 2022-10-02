@@ -655,7 +655,8 @@ public class WriterVisitor implements Visitor {
         writeLineHTML("</ForInCommand>");
         return null;
     }
-
+    
+    //Adding visitLocalDeclaration -- Carolina Narvaez
     @Override
     public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

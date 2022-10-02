@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<Program>
+<ForDoCommand>
+<Identifier value="a"/>
+<Identifier value="i"/>
+<IntegerExpression>
+<IntegerLiteral value="5"/>
+</IntegerExpression>
+<IntegerExpression>
+<IntegerLiteral value="6"/>
+</IntegerExpression>
+<NilCommand/>
+</ForDoCommand>
+</Program>

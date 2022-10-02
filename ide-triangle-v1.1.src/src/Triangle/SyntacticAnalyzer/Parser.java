@@ -349,7 +349,6 @@ public class Parser {
             acceptIt();
             Identifier iAST2 = parseIdentifier();
             
-            
             acceptFromIn(currentToken.kind);
             if(currentToken.kind == Token.FROM){
                 acceptIt();
@@ -411,7 +410,7 @@ public class Parser {
 //    case Token.END:
 //    case Token.ELSE:
 //    case Token.IN:
-    case Token.NIL: //Adding case NIL -- Jhonny Diaz
+    case Token.NIL:                                             //Adding case NIL -- Jhonny Diaz
         {
           acceptIt();
           finish(commandPos);

@@ -49,7 +49,7 @@ public final class Scanner {
     sourceFile = source;
     currentChar = sourceFile.getSource();
     debug = false;
-    sentence = new StringBuffer("<p>");
+    sentence = new StringBuffer("<p>");             // added by Carolina Narvaez
   }
 
   public void enableDebugging() {
@@ -70,7 +70,7 @@ public final class Scanner {
     private void scanSeparator() {
         switch (currentChar) {
             case '!':
-                sentence.append("<a style=\"color:lightgreen;\">");          //added by Carolina Narvaez
+                sentence.append("<a style=\"color:lightgreen;\">");             //added by Carolina Narvaez
                 sentence.append(currentChar);                                   //added by Carolina Narvaez
                 takeIt();
                 while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT)){
@@ -78,14 +78,14 @@ public final class Scanner {
                     takeIt();
                 }
                 if (currentChar == SourceFile.EOL)
-                    sentence.append("</a></p>");                             //added by Carolina Narvaez
+                    sentence.append("</a></p>");                                //added by Carolina Narvaez
                     takeIt();
                 break;
 
             case ' ': case '\r': case '\t':
                 sentence.append("<a>");
                 sentence.append(currentChar);                                   //added by Carolina Narvaez
-                sentence.append("</a>");                                     //added by Carolina Narvaez
+                sentence.append("</a>");                                        //added by Carolina Narvaez
                 takeIt();
                 break;
             
@@ -212,6 +212,8 @@ public final class Scanner {
         //atributo tipo texto donde vamos a agregar todo lo que se escanee
         //
         //sentence.delete(0, sentence.length()-1);
+        
+        // Adding variable for the htmlGenerator                                Added by Carolina Narvaez
         String fileName = sourceFile.fileName;
         htmlGenerator htmlFile = null;
         try{
@@ -243,7 +245,7 @@ public final class Scanner {
         if (debug)
           System.out.println(tok);
         
-        // Adding text to HTML                                                  Added by Carolina Narvaez
+        // Adding text to HTML                                                         Added by Carolina Narvaez
         try{
             if (tok.kind==0 || tok.kind==1){
                 sentence.append("<a style=\"color:blue;\">" + tok.spelling + "</a>");
