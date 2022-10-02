@@ -1,0 +1,16 @@
+let
+rec
+	proc p(var num1 : Integer, num2 : Integer)
+		~ num1 := num1 * num2; nil end
+|
+
+	proc c(var num3 : Integer, num4 : Integer)
+		~ num3 := num3 * num4; nil end
+
+end
+
+in
+	nil 
+end
+
+! OK

@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="yes"?>
+<Program>
+<LetCommand>
+<SequentialDeclaration>
+<SequentialDeclaration>
+<InitDeclaration>
+<Identifier value="j"/>
+<IntegerExpression>
+<IntegerLiteral value="5"/>
+</IntegerExpression>
+</InitDeclaration>
+<InitDeclaration>
+<Identifier value="i"/>
+<CharacterExpression>
+<CharacterLiteral value="'c'"/>
+</CharacterExpression>
+</InitDeclaration>
+</SequentialDeclaration>
+<InitDeclaration>
+<Identifier value="y"/>
+<VnameExpression>
+<SimpleVname>
+<Identifier value="Integer"/>
+</SimpleVname>
+</VnameExpression>
+</InitDeclaration>
+</SequentialDeclaration>
+<NilCommand/>
+</LetCommand>
+</Program>

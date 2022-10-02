@@ -199,6 +199,11 @@ public class TreeVisitor implements Visitor {
         return(createUnary("Rec Declaration", ast.I));        
     }
     
+    //Adding visitLocalDeclaration -- Jhonny Diaz
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object obj) {
+        return(createUnary("Local Declaration", ast.I));        
+    }
+    
     public Object visitSequentialDeclaration(SequentialDeclaration ast, Object obj) {
         return(createBinary("Sequential Declaration", ast.D1, ast.D2));
     }

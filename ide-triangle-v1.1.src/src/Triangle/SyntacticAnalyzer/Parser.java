@@ -264,7 +264,7 @@ public class Parser {
     }
     break;
 
-    //Adding IF command -- Jhonny Diaz
+    //Adding IF command -- Jhonny Diaz & Nikolas Ocampo
     case Token.IF:
     {
         acceptIt();
@@ -699,6 +699,11 @@ public class Parser {
       {
         acceptIt();
         Identifier iAST = parseIdentifier();
+        //Adding IF to choose between the ':' or 'INIT' to initialize a var -- Jhonny Diaz
+        /*
+            The main difference now is if it comes with a ':' it needs a typedenoter
+            instead of if it becomes with an 'INIT', that needs no type
+        */
         if (currentToken.kind == Token.COLON){
             accept(Token.COLON);
         
@@ -707,10 +712,8 @@ public class Parser {
             declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
         }
         
-        //Es un elsif (buscar sintaxis de java)
         else if (currentToken.kind == Token.INIT){
             accept(Token.INIT);
-        
             Expression eAST = parseExpression();
             finish(declarationPos);
             declarationAST = new InitDeclaration(iAST, eAST, declarationPos);
@@ -718,6 +721,8 @@ public class Parser {
       }
       break;
 
+      //Edit done by Jhonny Diaz
+      //Editing PROC, the parseSingleCommand has change to parseCommand and added the 'END' command
     case Token.PROC:
       {
         acceptIt();
@@ -726,8 +731,8 @@ public class Parser {
         FormalParameterSequence fpsAST = parseFormalParameterSequence();
         accept(Token.RPAREN);
         accept(Token.IS);
-        Command cAST = parseCommand();
-        accept(Token.END);
+        Command cAST = parseCommand(); //Now is parseCommand
+        accept(Token.END); //adding end
         finish(declarationPos);
         declarationAST = new ProcDeclaration(iAST, fpsAST, cAST, declarationPos);
       }
@@ -776,19 +781,25 @@ public class Parser {
   //parseCaseLiterals (Aplicar algo similar a ParseProcFuncDecalaration)
   //parseCaseRange (hasta un int || de un int hasta un int)
   //parseCaseLiteral(return int || char)
+  
+//Adding procfunc declaration -- Jhonny Diaz
+// procfunc ('|' procfunc)+
 Declaration parseProcFuncDeclaration() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
 
     SourcePosition declarationPos = new SourcePosition();
     start(declarationPos);
     declarationAST = parseSingleProcFuncDeclaration();
-    while (currentToken.kind == Token.PIPE) {//en caso de ser uno solo, no es un while sino un if
-      acceptIt();
-      Declaration d2AST = parseSingleProcFuncDeclaration();
-      finish(declarationPos);
-      declarationAST = new SequentialProcFuncDeclaration(declarationAST, d2AST,
-        declarationPos);
-    }
+    
+    //It uses a do-while loop because it need to do all steps at least 1 time
+    do {
+        accept(Token.PIPE);
+        //acceptIt();
+        Declaration d2AST = parseSingleProcFuncDeclaration();
+        finish(declarationPos);
+        declarationAST = new SequentialProcFuncDeclaration(declarationAST, d2AST,declarationPos);
+    }while(currentToken.kind == Token.PIPE);
+    
     return declarationAST;
   }
 
@@ -843,6 +854,7 @@ Declaration parseProcFuncDeclaration() throws SyntaxError {
   
   //----------------------------------------------------------
 
+  //Adding NEW RULE Parse Compound Declaration -- Jhonny Diaz
   Declaration parseCompoundDeclaration() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
 
@@ -851,6 +863,7 @@ Declaration parseProcFuncDeclaration() throws SyntaxError {
 
     switch (currentToken.kind) {
       
+    //Case 'rec' procfunc 'end' -- Jhonny Diaz
     case Token.REC:
       {
         acceptIt();
@@ -861,6 +874,7 @@ Declaration parseProcFuncDeclaration() throws SyntaxError {
       }
       break;
       
+    //Case 'local' declaration 'in' declaration 'end' -- Jhonny Diaz
     case Token.LOCAL:
       {
         acceptIt();
@@ -869,8 +883,7 @@ Declaration parseProcFuncDeclaration() throws SyntaxError {
         Declaration jAST = parseDeclaration();
         accept(Token.END);
         finish(declarationPos);
-        //HACER AST DE LOCAL
-        declarationAST = iAST;//new LocalDeclaration(iAST,jAST,declarationPos)
+        declarationAST = new LocalDeclaration(iAST,jAST,declarationPos);
       }
       break;
 

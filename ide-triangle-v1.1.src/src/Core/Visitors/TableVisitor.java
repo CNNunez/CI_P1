@@ -359,6 +359,12 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
+  //Implementing the visit to LOCAL -- Jhonny Diaz
+  public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {   
+      ast.I.visit(this, null);
+      return(null);
+  }
+  
   public Object visitTypeDeclaration(TypeDeclaration ast, Object o) { 
       ast.T.visit(this, null);
       
