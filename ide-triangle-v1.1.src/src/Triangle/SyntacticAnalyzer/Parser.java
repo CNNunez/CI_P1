@@ -292,17 +292,6 @@ public class Parser {
       }
       break;
 
-
-//    case Token.WHILE:
-//      {
-//        acceptIt();
-//        Expression eAST = parseExpression();
-//        accept(Token.DO);
-//        Command cAST = parseSingleCommand();
-//        finish(commandPos);
-//        commandAST = new WhileCommand(eAST, cAST, commandPos);
-//      }
-//      break;
      
      //Adding LOOP -- Nikholas Ocampo
      case Token.LOOP: 
@@ -432,7 +421,7 @@ public class Parser {
 //    case Token.END:
 //    case Token.ELSE:
 //    case Token.IN:
-    case Token.NIL:                                             //Adding case NIL -- Jhonny Diaz
+    case Token.NIL: //Adding case NIL -- Jhonny Diaz
         {
           acceptIt();
           finish(commandPos);
@@ -738,8 +727,12 @@ public class Parser {
             Expression eAST = parseExpression();
             finish(declarationPos);
             declarationAST = new InitDeclaration(iAST, eAST, declarationPos);
-        }        
+        }
+        else{
+        syntacticError("\"%\" cannot start a declaration, ':' or 'init' expected",currentToken.spelling);
+        }
       }
+        
       break;
 
       //Edit done by Jhonny Diaz
@@ -797,11 +790,6 @@ public class Parser {
   }
   
   //-------------------------------------------
-  //parsecasesdeclaration
-  //pasrsecasedeclaration (Case de when, asignar a una var el case-literals accept then agregarle una var command y esos dos case-literals y comands agregarlos a un ast)
-  //parseCaseLiterals (Aplicar algo similar a ParseProcFuncDecalaration)
-  //parseCaseRange (hasta un int || de un int hasta un int)
-  //parseCaseLiteral(return int || char)
   
 //Adding procfunc declaration -- Jhonny Diaz
 // procfunc ('|' procfunc)+
