@@ -1,16 +1,15 @@
 <?xml version="1.0" standalone="yes"?>
 <Program>
-<LoopUntilCommand>
-<Identifier value="i"/>
+<LoopDoWhileCommand>
 <BinaryExpression>
 <IntegerExpression>
-<IntegerLiteral value="1"/>
+<IntegerLiteral value="3"/>
 </IntegerExpression>
 <Operator value="="/>
 <IntegerExpression>
-<IntegerLiteral value="1"/>
+<IntegerLiteral value="3"/>
 </IntegerExpression>
 </BinaryExpression>
 <NilCommand/>
-</LoopUntilCommand>
+</LoopDoWhileCommand>
 </Program>

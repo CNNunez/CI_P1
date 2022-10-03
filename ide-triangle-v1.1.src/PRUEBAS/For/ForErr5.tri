@@ -1,3 +1,3 @@
-for i from 5 .. 6 do nothing ; nothing 
+! Error: for sin el for
 
-! falta end
+loop a from 5 to 6 do nil end

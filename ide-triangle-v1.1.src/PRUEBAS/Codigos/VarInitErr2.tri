@@ -3,7 +3,7 @@ let
 	var i init 4 : Integer; 
 	var y : Integer
 in
-	nothing 
+	nil 
 end
 
 ! Error: "i" no debería tener declaración de tipo
