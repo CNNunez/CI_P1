@@ -57,11 +57,24 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
-  // N
+  //Implementing the visit to ReturnCommand -- Nikholas Ocampo
+    public Object visitReturnCommand(ReturnCommand ast, Object o) { 
+      return(null);
+  }
+  
+    //Implementing the visit to PipeCommand -- Nikholas Ocampo
    public Object visitPipeCommand(PipeCommand ast, Object o) {
         ast.E.visit(this, null);
         ast.C1.visit(this, null);
         return null;
+  }
+   
+     //Implementing the visit to LeaveNextCommand -- Nikholas Ocampo
+     public Object visitLeaveNextCommand(LeaveNextCommand ast, Object o) { 
+       if (ast.I != null){
+        ast.I.visit(this, null);
+      }
+      return(null);
   }
       
 

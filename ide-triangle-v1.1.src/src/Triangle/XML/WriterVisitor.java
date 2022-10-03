@@ -35,6 +35,18 @@ public class WriterVisitor implements Visitor {
         return null;
     }
 
+    
+    public Object visitLeaveNextCommand(LeaveNextCommand ast, Object obj) {
+        String str = null;
+        str = ast.F == true ? "<LeaveCommand>" : "<NextCommand>";
+        writeLineHTML(str);
+        if (ast.I != null) {
+            ast.I.visit(this, null);
+            writeLineHTML(str);
+        }
+        return null;
+    }
+
     public Object visitPipeCommand(PipeCommand ast, Object obj) {
         writeLineHTML("<PipeCommand>");
         ast.E.visit(this, null);
@@ -515,6 +527,13 @@ public class WriterVisitor implements Visitor {
         return null;
     }
 
+    //Adding ReturnCommand to XML -- Nikholas Ocampo
+    @Override
+    public Object visitReturnCommand(ReturnCommand ast, Object o) {
+        writeLineHTML("<ReturnCommand/>");
+        return null;
+    }
+
     //Adding Loop while do Command to XML -- Jhonny Diaz
     @Override
     public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object o) {
@@ -655,7 +674,7 @@ public class WriterVisitor implements Visitor {
         writeLineHTML("</ForInCommand>");
         return null;
     }
-    
+
     //Adding visitLocalDeclaration -- Carolina Narvaez
     @Override
     public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {

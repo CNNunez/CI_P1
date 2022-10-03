@@ -392,19 +392,41 @@ public class Parser {
     break;
     
         
+    //Adding LEAVE -- Nikholas Ocampo
     case Token.LEAVE:
     {
         acceptIt();
+        Identifier iAST = null;
+        if(currentToken.kind == Token.IDENTIFIER) {
+              iAST = parseIdentifier();
+        }
+        
+        finish(commandPos);
+        commandAST = new LeaveNextCommand(iAST,true,commandPos) ;
     }
+    break;
+    //Adding NEXT -- Nikholas Ocampo
     case Token.NEXT:
     {
         acceptIt();
+        Identifier iAST = null;
+        if(currentToken.kind == Token.IDENTIFIER) {
+              iAST = parseIdentifier();
+        }
+        
+        finish(commandPos);
+        commandAST = new LeaveNextCommand(iAST,false,commandPos) ;
     }
+    break;
     
+    //Adding RETURN -- Nikholas Ocampo
     case Token.RETURN:
     {
         acceptIt();
+        finish(commandPos);
+        commandAST = new ReturnCommand(commandPos);
     }
+    break;
 
 //    case Token.SEMICOLON:
 //    case Token.END:

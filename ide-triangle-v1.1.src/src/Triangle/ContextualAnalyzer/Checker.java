@@ -57,8 +57,19 @@ public final class Checker implements Visitor {
   public Object visitNilCommand(NilCommand ast, Object o) {
     return null;
   }
+  
 
-  // N
+   // Adding ReturnCommand --Nikholas Ocampo
+  public Object visitReturnCommand(ReturnCommand ast, Object o) {
+    return null;
+  }
+  
+  // Adding LeaveNextCommand --Nikholas Ocampo
+   public Object visitLeaveNextCommand(LeaveNextCommand ast, Object o) {
+    return null;
+  }
+  
+  // Adding PipeCommand --Nikholas Ocampo
  public Object visitPipeCommand(PipeCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))

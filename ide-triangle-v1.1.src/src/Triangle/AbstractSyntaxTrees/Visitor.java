@@ -34,6 +34,8 @@ public interface Visitor {
   public abstract Object visitForDoCommand(ForDoCommand ast, Object o); //Adding ForDoCommand -- Nikholas Ocampo
   public abstract Object visitForInCommand(ForInCommand ast, Object o); //Adding ForInCommand -- Nikholas Ocampo
     
+  public abstract Object visitReturnCommand(ReturnCommand ast, Object o); //Adding ReturnCommand command to be sure its visited -- Nikholas Ocampo
+  public abstract Object visitLeaveNextCommand(LeaveNextCommand ast, Object o); //Adding Leave and Next command to be sure its visited -- Nikholas Ocampo
   public abstract Object visitNilCommand(NilCommand ast, Object o); //Adding NIL command to be sure its visited -- Jhonny Diaz
   public abstract Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object o);//Adding loop while do command to be sure its visited -- Jhonny Diaz
 
