@@ -301,6 +301,9 @@ public class Parser {
         if(currentToken.kind == Token.IDENTIFIER) {
               iAST = parseIdentifier();
         }
+        else{
+            syntacticError("\"%\" is not an identifier",currentToken.spelling);
+        }
         acceptdifToken(currentToken.kind);
         if(currentToken.kind == Token.WHILE || currentToken.kind == Token.UNTIL) {
           int tkn = currentToken.kind;
