@@ -1,3 +1,0 @@
-for i from 5 .. 6 do nothing leave var end
-
-! Error: var no es un iniciador de comando

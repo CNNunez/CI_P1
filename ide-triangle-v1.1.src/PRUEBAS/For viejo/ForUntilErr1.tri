@@ -1,3 +1,0 @@
-for i from 5 .. 6 i < 5 do nothing ; nothing end
-
-!falta until o while después del 6, o falta un do

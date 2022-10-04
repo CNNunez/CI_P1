@@ -1,7 +1,0 @@
-!Prueba LET
-let !esto es un comentario
-var i : int
-in
-nil
-end
-!Fin de la prueba

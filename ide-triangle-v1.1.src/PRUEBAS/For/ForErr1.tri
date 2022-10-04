@@ -1,3 +1,0 @@
-! Error: for sin el from
-
-loop a for i 5 to 6 do nil end

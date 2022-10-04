@@ -1,0 +1,3 @@
+loop to for i from 5 to 6 do nil end ! to no es un identificador, sino una palabra reservada
+
+! OK

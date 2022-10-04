@@ -1,3 +1,0 @@
-loop for i in 10 do nil end
-
-!ok

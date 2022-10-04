@@ -1,0 +1,3 @@
+loop 12345 for i from 5 to 6 do nil end ! 12345 no es un identificador, sino una literal entera
+
+! OK

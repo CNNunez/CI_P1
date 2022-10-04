@@ -1,3 +1,0 @@
-repeat until 2=2 do nothing ; nothing leave end
-
-! Error: leave no es seguido por un comando

@@ -1,0 +1,9 @@
+loop ciclo
+until false do
+  if true then
+    next ciclo
+  else
+    nil
+  end
+end
+  

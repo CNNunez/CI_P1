@@ -1,8 +1,0 @@
-let
-! Error: acá debería ir una declaracion 
-in
-	put(i);
-	put(i)
-end
-
-! Error: declaración vacía 

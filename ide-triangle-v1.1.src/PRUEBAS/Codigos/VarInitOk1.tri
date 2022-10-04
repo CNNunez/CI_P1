@@ -1,9 +1,0 @@
-let
-	var j init 5;
-	var i init 'c';
-	var y init Integer
-in
-	nil 
-end
-
-! OK

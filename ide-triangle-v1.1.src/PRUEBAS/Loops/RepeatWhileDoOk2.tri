@@ -1,3 +1,0 @@
-loop i while 1=1 do nil ; nil end
-
-! OK

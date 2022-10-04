@@ -1,3 +1,0 @@
-! Error: Faltó el then
-
-if 1=1 nil else nil end

@@ -1,0 +1,17 @@
+! return dentro de un proc
+
+let
+  var i : Integer;
+  proc impr() ~
+    if i > 0 then 
+      putint(i);
+      i := i - 1;
+      impr()
+    else
+      return !pudo haber sido nil
+    end
+  end
+in
+  getint(var i);
+  impr()
+end

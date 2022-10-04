@@ -1,0 +1,4 @@
+loop 1 until false do ! 1 no es un identificador
+    nil
+end
+  

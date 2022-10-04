@@ -1,3 +1,0 @@
-! IF correcto
-
-if 1=1 then nil else nil end

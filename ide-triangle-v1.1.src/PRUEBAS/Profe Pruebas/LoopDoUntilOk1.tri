@@ -1,3 +1,0 @@
-loop do nil until 4=4 end
-
-! OK

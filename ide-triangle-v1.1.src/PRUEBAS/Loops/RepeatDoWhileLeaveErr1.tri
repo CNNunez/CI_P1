@@ -1,3 +1,0 @@
-repeat do nothing ; nothing while 3=3 leave end
-
-! Error: leave no es seguido por un comando

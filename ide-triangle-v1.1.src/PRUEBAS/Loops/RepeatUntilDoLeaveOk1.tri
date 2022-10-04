@@ -1,3 +1,0 @@
-repeat until 2=2 do nothing ; nothing leave put('U') end
-
-! OK, imprime 'U'
