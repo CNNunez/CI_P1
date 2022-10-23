@@ -170,12 +170,13 @@ public final class Checker implements Visitor {
         return null;
     }
     
-      // -- Nikholas Ocampo
+      // -- Nikholas Ocampo - Carolina Narvaez
     @Override
-    public Object visitForInCommand(ForInCommand ast, Object o) { 
+    public Object visitForInCommand(ForInCommand ast, Object o) {
         TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
-        if (! (e1Type.equals(StdEnvironment.integerType)))
-            reporter.reportError("Integer expression expected here", "", ast.E.position);
+        // Tiene un error, porque esta dependiendo de la canntidad de elementos del array
+        if (! (e1Type.equals(StdEnvironment.arrayType)))
+            reporter.reportError("malo es bueno", "", ast.E.position);
         ast.C.visit(this, null);
         return null;
     }
@@ -1005,15 +1006,17 @@ public final class Checker implements Visitor {
   // Enters these "declarations" in the identification table.
 
   private final static Identifier dummyI = new Identifier("", dummyPos);
-
+  private final static IntegerLiteral intL = new IntegerLiteral("6", dummyPos);// -- Carolina Narvaez
+  
   private void establishStdEnvironment () {
-
+    
     // idTable.startIdentification();
     StdEnvironment.booleanType = new BoolTypeDenoter(dummyPos);
     StdEnvironment.integerType = new IntTypeDenoter(dummyPos);
     StdEnvironment.charType = new CharTypeDenoter(dummyPos);
     StdEnvironment.anyType = new AnyTypeDenoter(dummyPos);
     StdEnvironment.errorType = new ErrorTypeDenoter(dummyPos);
+    StdEnvironment.arrayType = new ArrayTypeDenoter(intL, StdEnvironment.integerType, dummyPos);// -- Carolina Narvaez
 
     StdEnvironment.booleanDecl = declareStdType("Boolean", StdEnvironment.booleanType);
     StdEnvironment.falseDecl = declareStdConst("false", StdEnvironment.booleanType);
