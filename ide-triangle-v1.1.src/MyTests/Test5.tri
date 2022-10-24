@@ -1,0 +1,12 @@
+loop until 1=1 do 
+	let
+		var a init 5
+	in 
+		loop x for i from 1 to 5 do putint(a)end;
+		loop while a=a do nil end
+	
+	end
+	
+	!loop while a=a do nil end
+
+end

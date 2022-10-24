@@ -2,9 +2,9 @@ loop x for i from 1 to 5 do
 
 	loop y for o from i to 9 do
 		loop z for u from o to 15 do nil end
-	end
+	end;
 	
-	!loop w for e from i to 9 do
-		!loop v for a from j to 15 do nothing end
-	!end
+	loop w for e from i to 9 do
+		loop v for a from e to 15 do nil end
+	end
 end
