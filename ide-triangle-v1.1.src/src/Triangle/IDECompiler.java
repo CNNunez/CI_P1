@@ -53,6 +53,7 @@ public class IDECompiler {
         
         rootAST = parser.parseProgram();
         if (report.numErrors == 0) {
+            // Changed by Carolina Narvaez
             System.out.println("Contextual Analysis ...");
             Checker checker = new Checker(report);
             checker.check(rootAST);
