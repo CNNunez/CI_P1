@@ -628,8 +628,8 @@ public class Main extends javax.swing.JFrame {
                 //XML -- Jhonny Diaz
                 //Adding XML writer, this takes the final result and writes it into xml
                 //It takes the title of 'SelectedPane' to get the dir to the file, then change the directory and the extesion
-                Writer c = new Writer(desktopPane.getSelectedFrame().getTitle().replace("Codigos", "XMLs").replace(".tri", ".xml"));
-                c.write(compiler.getAST()); //Here it takes the final AST and write it as a XML
+                //Writer c = new Writer(desktopPane.getSelectedFrame().getTitle().replace("Codigos", "XMLs").replace(".tri", ".xml"));
+                //c.write(compiler.getAST()); //Here it takes the final AST and write it as a XML
                 
                 runMenuItem.setEnabled(false);
                 buttonRun.setEnabled(false);

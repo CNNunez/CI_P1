@@ -753,7 +753,14 @@ public final class Checker implements Visitor {
       } else if (binding instanceof VarFormalParameter) {
         ast.type = ((VarFormalParameter) binding).T;
         ast.variable = true;
-      } else
+        
+      } //Adding the instance of Init Declaration  --  Jhonny Diaz
+        else if (binding instanceof InitDeclaration) {
+        ast.type = ((VarFormalParameter) binding).T;
+        ast.variable = true;
+        
+      }
+      else
         reporter.reportError ("\"%\" is not a const or var identifier",
                               ast.I.spelling, ast.I.position);
     return ast.type;
@@ -980,9 +987,20 @@ public final class Checker implements Visitor {
 
   
     //Implementing methods just because it needs to be solved -- Jhonny Diaz
+  
+    //Visit Init Delcaration, it visit the declaration. It also checks if it has been not declare before -- Johnny Diaz
     @Override
     public Object visitInitDeclaration(InitDeclaration ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        
+        
+        //Add the var to table
+        idTable.enter(ast.I.spelling, ast);
+        //Checks if it has been not declare
+        if (ast.duplicated)
+          reporter.reportError ("identifier \"%\" already declared",
+                                ast.I.spelling, ast.position);        
+        return null;
     }
 
     @Override
