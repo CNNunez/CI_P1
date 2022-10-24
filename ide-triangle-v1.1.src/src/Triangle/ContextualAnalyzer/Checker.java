@@ -187,7 +187,7 @@ public final class Checker implements Visitor {
         return null;
     }
 
-    // -- Nikholas Ocampo
+    // -- Nikholas Ocampo - Carolina Narvaez
     @Override
     public Object visitForUntilCommand(ForUntilCommand ast, Object o) { 
         this.idTable.openScope();
@@ -209,7 +209,7 @@ public final class Checker implements Visitor {
         return null;
     }
 
-    // -- Nikholas Ocampo
+    // -- Nikholas Ocampo - Carolina Narvaez
     @Override
     public Object visitForWhileCommand(ForWhileCommand ast, Object o) { 
         this.idTable.openScope();
