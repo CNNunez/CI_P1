@@ -301,9 +301,7 @@ public class Parser {
         if(currentToken.kind == Token.IDENTIFIER) {
               iAST = parseIdentifier();
         }
-        else{
-            syntacticError("\"%\" is not an identifier",currentToken.spelling);
-        }
+        
         acceptdifToken(currentToken.kind);
         if(currentToken.kind == Token.WHILE || currentToken.kind == Token.UNTIL) {
           int tkn = currentToken.kind;
@@ -379,6 +377,9 @@ public class Parser {
                 finish(commandPos);
                 commandAST = new ForInCommand(iAST,iAST2,eAST,cAST,commandPos) ;
             }
+        }
+        else{
+            syntacticError("\"%\" is not an identifier",currentToken.spelling);
         }
     } 
     break;
