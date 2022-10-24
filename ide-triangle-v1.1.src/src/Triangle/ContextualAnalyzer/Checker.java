@@ -186,7 +186,7 @@ public final class Checker implements Visitor {
     // -- Nikholas Ocampo
     @Override
     public Object visitForUntilCommand(ForUntilCommand ast, Object o) { 
-
+        
         TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
         TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
         TypeDenoter e3Type = (TypeDenoter) ast.E3.visit(this, null);
