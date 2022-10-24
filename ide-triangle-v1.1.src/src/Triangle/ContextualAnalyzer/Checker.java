@@ -154,11 +154,13 @@ public final class Checker implements Visitor {
   // -- Nikholas Ocampo - Carolina Narvaez
     @Override
     public Object visitForDoCommand(ForDoCommand ast, Object o) {
-        this.idTable.openScope();
+        
         
         TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
         TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
         
+        this.idTable.openScope();
+        //Check if the type is integer -- Carolina Narvaez
         if (!(e1Type.equals(StdEnvironment.integerType)))
             reporter.reportError("Integer expression expected here", "", ast.E.position);
         else if (!(e2Type.equals(StdEnvironment.integerType)))
@@ -832,7 +834,7 @@ public final class Checker implements Visitor {
         
       } //Adding the instance of Init Declaration  --  Jhonny Diaz
         else if (binding instanceof InitDeclaration) {
-        ast.type = ((VarFormalParameter) binding).T;
+        ast.type = ((InitDeclaration) binding).E.type;
         ast.variable = true;
         
       }
@@ -1096,7 +1098,11 @@ public final class Checker implements Visitor {
 
     @Override
     public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        if (! eType.equals(StdEnvironment.booleanType))
+          reporter.reportError("Boolean expression expected here", "", ast.E.position);
+        ast.C.visit(this, null);
+        return null;
     }
 
     @Override
