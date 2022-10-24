@@ -1,0 +1,4 @@
+loop x for i from 1 to 5 do
+	loop while a=a do nil end
+
+end
