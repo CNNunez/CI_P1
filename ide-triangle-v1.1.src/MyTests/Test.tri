@@ -1,7 +1,7 @@
-repeat x for i from 1 to 5 do
+loop x for i from 1 to 5 do
 
-	repeat y for o from i to 9 do
-		repeat z for u from o to 15 do nothing end
+	loop y for o from i to 9 do
+		loop z for u from o to 15 do nil end
 	end
 	
 	!loop w for e from i to 9 do

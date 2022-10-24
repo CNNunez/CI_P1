@@ -154,19 +154,19 @@ public final class Checker implements Visitor {
   // -- Nikholas Ocampo - Carolina Narvaez
     @Override
     public Object visitForDoCommand(ForDoCommand ast, Object o) {
-        
+        this.idTable.openScope();
+        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
         
         TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
         TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
         
-        this.idTable.openScope();
+        
         //Check if the type is integer -- Carolina Narvaez
         if (!(e1Type.equals(StdEnvironment.integerType)))
             reporter.reportError("Integer expression expected here", "", ast.E.position);
         else if (!(e2Type.equals(StdEnvironment.integerType)))
             reporter.reportError("Integer expression expected here", "", ast.E2.position);
         
-        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
         ast.C.visit(this, null);
         this.idTable.closeScope();
         return null;
@@ -175,17 +175,45 @@ public final class Checker implements Visitor {
       // -- Nikholas Ocampo - Carolina Narvaez
     @Override
     public Object visitForInCommand(ForInCommand ast, Object o) {
+        this.idTable.openScope();
+        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
+        
         TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
-        // Tiene un error, porque esta dependiendo de la canntidad de elementos del array
+        
         if (! (e1Type.equals(StdEnvironment.arrayType)))
             reporter.reportError("malo es bueno", "", ast.E.position);
         ast.C.visit(this, null);
+        this.idTable.closeScope();
         return null;
     }
 
     // -- Nikholas Ocampo
     @Override
     public Object visitForUntilCommand(ForUntilCommand ast, Object o) { 
+        this.idTable.openScope();
+        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
+        
+        TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
+        TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
+        TypeDenoter e3Type = (TypeDenoter) ast.E3.visit(this, null);
+        
+        if (! (e1Type.equals(StdEnvironment.integerType)))
+            reporter.reportError("Integer expression expected here", "", ast.E.position);
+        else if (! (e2Type.equals(StdEnvironment.integerType)))
+            reporter.reportError("Integer expression expected here", "", ast.E2.position);
+        else if (! (e3Type.equals(StdEnvironment.booleanType)))
+            reporter.reportError("Boolean expression expected here", "", ast.E3.position);
+        
+        ast.C.visit(this, null);
+        this.idTable.closeScope();
+        return null;
+    }
+
+    // -- Nikholas Ocampo
+    @Override
+    public Object visitForWhileCommand(ForWhileCommand ast, Object o) { 
+        this.idTable.openScope();
+        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
         
         TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
         TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
@@ -198,24 +226,7 @@ public final class Checker implements Visitor {
         else if (! (e3Type.equals(StdEnvironment.booleanType)))
             reporter.reportError("Boolean expression expected here", "", ast.E3.position);
         ast.C.visit(this, null);
-        return null;
-    }
-
-    // -- Nikholas Ocampo
-    @Override
-    public Object visitForWhileCommand(ForWhileCommand ast, Object o) { 
-
-        TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
-        TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
-        TypeDenoter e3Type = (TypeDenoter) ast.E3.visit(this, null);
-
-        if (! (e1Type.equals(StdEnvironment.integerType)))
-            reporter.reportError("Integer expression expected here", "", ast.E.position);
-        else if (! (e2Type.equals(StdEnvironment.integerType)))
-            reporter.reportError("Integer expression expected here", "", ast.E2.position);
-        else if (! (e3Type.equals(StdEnvironment.booleanType)))
-            reporter.reportError("Boolean expression expected here", "", ast.E3.position);
-        ast.C.visit(this, null);
+        this.idTable.closeScope();
         return null;
     }
   
