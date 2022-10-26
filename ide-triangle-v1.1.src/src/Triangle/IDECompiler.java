@@ -21,7 +21,7 @@ import Triangle.CodeGenerator.Encoder;
  * to get to the ASTs in order to draw them in the IDE without modifying the
  * original Triangle code.
  *
- * @author Luis Leopoldo Pérez <luiperpe@ns.isi.ulatina.ac.cr>
+ * @author Luis Leopoldo Prez <luiperpe@ns.isi.ulatina.ac.cr>
  */
 public class IDECompiler {
 
@@ -53,9 +53,10 @@ public class IDECompiler {
         
         rootAST = parser.parseProgram();
         if (report.numErrors == 0) {
-//            System.out.println("Contextual Analysis ...");
-//            Checker checker = new Checker(report);
-//            checker.check(rootAST);
+            // Changed by Carolina Narvaez
+            System.out.println("Contextual Analysis ...");
+            Checker checker = new Checker(report);
+            checker.check(rootAST);
             if (report.numErrors == 0) {
 //                System.out.println("Code Generation ...");
 //                Encoder encoder = new Encoder(report);

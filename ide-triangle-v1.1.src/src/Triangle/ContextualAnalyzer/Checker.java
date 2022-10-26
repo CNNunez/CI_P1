@@ -16,80 +16,7 @@ package Triangle.ContextualAnalyzer;
 
 import Triangle.ErrorReporter;
 import Triangle.StdEnvironment;
-import Triangle.AbstractSyntaxTrees.AnyTypeDenoter;
-import Triangle.AbstractSyntaxTrees.ArrayExpression;
-import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
-import Triangle.AbstractSyntaxTrees.AssignCommand;
-import Triangle.AbstractSyntaxTrees.BinaryExpression;
-import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
-import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
-import Triangle.AbstractSyntaxTrees.CallCommand;
-import Triangle.AbstractSyntaxTrees.CallExpression;
-import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
-import Triangle.AbstractSyntaxTrees.CharacterExpression;
-import Triangle.AbstractSyntaxTrees.CharacterLiteral;
-import Triangle.AbstractSyntaxTrees.ConstActualParameter;
-import Triangle.AbstractSyntaxTrees.ConstDeclaration;
-import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
-import Triangle.AbstractSyntaxTrees.Declaration;
-import Triangle.AbstractSyntaxTrees.DotVname;
-import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.EmptyCommand;
-import Triangle.AbstractSyntaxTrees.EmptyExpression;
-import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
-import Triangle.AbstractSyntaxTrees.FieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.FormalParameter;
-import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.FuncActualParameter;
-import Triangle.AbstractSyntaxTrees.FuncDeclaration;
-import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
-import Triangle.AbstractSyntaxTrees.Identifier;
-import Triangle.AbstractSyntaxTrees.IfCommand;
-import Triangle.AbstractSyntaxTrees.IfExpression;
-import Triangle.AbstractSyntaxTrees.InitDeclaration;
-import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
-import Triangle.AbstractSyntaxTrees.IntegerExpression;
-import Triangle.AbstractSyntaxTrees.IntegerLiteral;
-import Triangle.AbstractSyntaxTrees.LetCommand;
-import Triangle.AbstractSyntaxTrees.LetExpression;
-import Triangle.AbstractSyntaxTrees.LoopWhileDoCommand;
-import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.NilCommand;
-import Triangle.AbstractSyntaxTrees.Operator;
-import Triangle.AbstractSyntaxTrees.ProcActualParameter;
-import Triangle.AbstractSyntaxTrees.ProcDeclaration;
-import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
-import Triangle.AbstractSyntaxTrees.Program;
-import Triangle.AbstractSyntaxTrees.RecDeclaration;
-import Triangle.AbstractSyntaxTrees.RecordExpression;
-import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SequentialCommand;
-import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
-import Triangle.AbstractSyntaxTrees.SequentialProcFuncDeclaration;
-import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SimpleVname;
-import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.SubscriptVname;
-import Triangle.AbstractSyntaxTrees.Terminal;
-import Triangle.AbstractSyntaxTrees.TypeDeclaration;
-import Triangle.AbstractSyntaxTrees.TypeDenoter;
-import Triangle.AbstractSyntaxTrees.UnaryExpression;
-import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
-import Triangle.AbstractSyntaxTrees.VarActualParameter;
-import Triangle.AbstractSyntaxTrees.VarDeclaration;
-import Triangle.AbstractSyntaxTrees.VarFormalParameter;
-import Triangle.AbstractSyntaxTrees.Visitor;
-import Triangle.AbstractSyntaxTrees.VnameExpression;
-import Triangle.AbstractSyntaxTrees.WhileCommand;
+import Triangle.AbstractSyntaxTrees.*;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public final class Checker implements Visitor {
@@ -98,6 +25,7 @@ public final class Checker implements Visitor {
 
   // Always returns null. Does not use the given object.
 
+  @Override
   public Object visitAssignCommand(AssignCommand ast, Object o) {
     TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -108,7 +36,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
-
+  @Override
   public Object visitCallCommand(CallCommand ast, Object o) {
 
     Declaration binding = (Declaration) ast.I.visit(this, null);
@@ -124,22 +52,53 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {
     return null;
   }
+  
+  @Override
   public Object visitNilCommand(NilCommand ast, Object o) {
     return null;
   }
+  
 
+   // Adding ReturnCommand --Nikholas Ocampo
+  @Override
+  public Object visitReturnCommand(ReturnCommand ast, Object o) {
+    return null;
+  }
+  
+  // Adding LeaveNextCommand --Nikholas Ocampo
+  @Override
+   public Object visitLeaveNextCommand(LeaveNextCommand ast, Object o) {
+    return null;
+  }
+  
+  // Adding PipeCommand --Nikholas Ocampo
+ @Override
+ public Object visitPipeCommand(PipeCommand ast, Object o) {
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    if (! eType.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E.position);
+    ast.C1.visit(this, null);
+    return null;
+  }
+ 
+ // -- Carolina Narvaez
+ @Override
   public Object visitIfCommand(IfCommand ast, Object o) {
+    idTable.openScope();
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
     ast.C1.visit(this, null);
     ast.C2.visit(this, null);
+    idTable.closeScope();
     return null;
   }
-
+  
+  @Override
   public Object visitLetCommand(LetCommand ast, Object o) {
     idTable.openScope();
     ast.D.visit(this, null);
@@ -147,26 +106,147 @@ public final class Checker implements Visitor {
     idTable.closeScope();
     return null;
   }
-
+  
+  @Override
   public Object visitSequentialCommand(SequentialCommand ast, Object o) {
     ast.C1.visit(this, null);
     ast.C2.visit(this, null);
     return null;
   }
-
+  
+  // -- Carolina Narvaez
+  @Override
   public Object visitWhileCommand(WhileCommand ast, Object o) {
+    idTable.openScope();
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
     ast.C.visit(this, null);
+    idTable.closeScope();
     return null;
   }
 
+  
+  //Adding LoopUntilCommand -- Nikholas Ocampo -- Carolina Narvaez
+  @Override
+  public Object visitLoopUntilCommand(LoopUntilCommand ast, Object o) {
+    idTable.openScope();
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    if (! eType.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E.position);
+    ast.C.visit(this, null);
+    idTable.closeScope();
+    return null;
+  }
+  
+    //Adding LoopDoWhileCommand -- Nikholas Ocampo -- Carolina Narvaez
+  @Override
+  public Object visitLoopDoWhileCommand(LoopDoWhileCommand ast, Object o) {
+    idTable.openScope();
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    if (! eType.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E.position);
+    ast.C.visit(this, null);
+    idTable.closeScope();
+    return null;
+  }
+  
+    //Adding LoopDoUntilCommand -- Nikholas Ocampo -- Carolina Narvaez
+  @Override
+  public Object visitLoopDoUntilCommand(LoopDoUntilCommand ast, Object o) {
+    idTable.openScope();
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    if (! eType.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E.position);
+    ast.C.visit(this, null);
+    idTable.closeScope();
+    return null;
+  }
+  
+  // -- Nikholas Ocampo - Carolina Narvaez
+    @Override
+    public Object visitForDoCommand(ForDoCommand ast, Object o) {
+        this.idTable.openScope();
+        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
+        
+        TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
+        TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
+        
+        
+        //Check if the type is integer -- Carolina Narvaez
+        if (!(e1Type.equals(StdEnvironment.integerType)))
+            reporter.reportError("Integer expression expected here", "", ast.E.position);
+        else if (!(e2Type.equals(StdEnvironment.integerType)))
+            reporter.reportError("Integer expression expected here", "", ast.E2.position);
+        
+        ast.C.visit(this, null);
+        this.idTable.closeScope();
+        return null;
+    }
+    
+      // -- Nikholas Ocampo - Carolina Narvaez
+    @Override
+    public Object visitForInCommand(ForInCommand ast, Object o) {
+        this.idTable.openScope();
+        
+        TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
+        
+        if (! (e1Type.equals(StdEnvironment.arrayType)))
+            reporter.reportError("Array expression expected here", "", ast.E.position);
+        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
+        ast.C.visit(this, null);
+        this.idTable.closeScope();
+        return null;
+    }
+
+    // -- Nikholas Ocampo - Carolina Narvaez
+    @Override
+    public Object visitForUntilCommand(ForUntilCommand ast, Object o) { 
+        this.idTable.openScope();
+        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
+        
+        TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
+        TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
+        TypeDenoter e3Type = (TypeDenoter) ast.E3.visit(this, null);
+        
+        if (! (e1Type.equals(StdEnvironment.integerType)))
+            reporter.reportError("Integer expression expected here", "", ast.E.position);
+        else if (! (e2Type.equals(StdEnvironment.integerType)))
+            reporter.reportError("Integer expression expected here", "", ast.E2.position);
+        else if (! (e3Type.equals(StdEnvironment.booleanType)))
+            reporter.reportError("Boolean expression expected here", "", ast.E3.position);
+        
+        ast.C.visit(this, null);
+        this.idTable.closeScope();
+        return null;
+    }
+
+    // -- Nikholas Ocampo - Carolina Narvaez
+    @Override
+    public Object visitForWhileCommand(ForWhileCommand ast, Object o) { 
+        this.idTable.openScope();
+        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
+        
+        TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
+        TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
+        TypeDenoter e3Type = (TypeDenoter) ast.E3.visit(this, null);
+
+        if (! (e1Type.equals(StdEnvironment.integerType)))
+            reporter.reportError("Integer expression expected here", "", ast.E.position);
+        else if (! (e2Type.equals(StdEnvironment.integerType)))
+            reporter.reportError("Integer expression expected here", "", ast.E2.position);
+        else if (! (e3Type.equals(StdEnvironment.booleanType)))
+            reporter.reportError("Boolean expression expected here", "", ast.E3.position);
+        ast.C.visit(this, null);
+        this.idTable.closeScope();
+        return null;
+    }
+  
   // Expressions
 
   // Returns the TypeDenoter denoting the type of the expression. Does
   // not use the given object.
-
+  @Override
   public Object visitArrayExpression(ArrayExpression ast, Object o) {
     TypeDenoter elemType = (TypeDenoter) ast.AA.visit(this, null);
     IntegerLiteral il = new IntegerLiteral(new Integer(ast.AA.elemCount).toString(),
@@ -174,7 +254,8 @@ public final class Checker implements Visitor {
     ast.type = new ArrayTypeDenoter(il, elemType, ast.position);
     return ast.type;
   }
-
+  
+  @Override
   public Object visitBinaryExpression(BinaryExpression ast, Object o) {
 
     TypeDenoter e1Type = (TypeDenoter) ast.E1.visit(this, null);
@@ -203,7 +284,8 @@ public final class Checker implements Visitor {
     }
     return ast.type;
   }
-
+  
+  @Override
   public Object visitCallExpression(CallExpression ast, Object o) {
     Declaration binding = (Declaration) ast.I.visit(this, null);
     if (binding == null) {
@@ -220,17 +302,20 @@ public final class Checker implements Visitor {
                            ast.I.spelling, ast.I.position);
     return ast.type;
   }
-
+  
+  @Override
   public Object visitCharacterExpression(CharacterExpression ast, Object o) {
     ast.type = StdEnvironment.charType;
     return ast.type;
   }
-
+  
+  @Override
   public Object visitEmptyExpression(EmptyExpression ast, Object o) {
     ast.type = null;
     return ast.type;
   }
-
+  
+  @Override
   public Object visitIfExpression(IfExpression ast, Object o) {
     TypeDenoter e1Type = (TypeDenoter) ast.E1.visit(this, null);
     if (! e1Type.equals(StdEnvironment.booleanType))
@@ -243,12 +328,14 @@ public final class Checker implements Visitor {
     ast.type = e2Type;
     return ast.type;
   }
-
+  
+  @Override
   public Object visitIntegerExpression(IntegerExpression ast, Object o) {
     ast.type = StdEnvironment.integerType;
     return ast.type;
   }
-
+  
+  @Override
   public Object visitLetExpression(LetExpression ast, Object o) {
     idTable.openScope();
     ast.D.visit(this, null);
@@ -256,13 +343,15 @@ public final class Checker implements Visitor {
     idTable.closeScope();
     return ast.type;
   }
-
+  
+  @Override
   public Object visitRecordExpression(RecordExpression ast, Object o) {
     FieldTypeDenoter rType = (FieldTypeDenoter) ast.RA.visit(this, null);
     ast.type = new RecordTypeDenoter(rType, ast.position);
     return ast.type;
   }
-
+  
+  @Override
   public Object visitUnaryExpression(UnaryExpression ast, Object o) {
 
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -282,7 +371,8 @@ public final class Checker implements Visitor {
     }
     return ast.type;
   }
-
+  
+  @Override
   public Object visitVnameExpression(VnameExpression ast, Object o) {
     ast.type = (TypeDenoter) ast.V.visit(this, null);
     return ast.type;
@@ -291,10 +381,12 @@ public final class Checker implements Visitor {
   // Declarations
 
   // Always returns null. Does not use the given object.
+  @Override
   public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object o) {
     return null;
   }
-
+  
+  @Override
   public Object visitConstDeclaration(ConstDeclaration ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.enter(ast.I.spelling, ast);
@@ -303,8 +395,10 @@ public final class Checker implements Visitor {
                             ast.I.spelling, ast.position);
     return null;
   }
-
+  
+  @Override
   public Object visitFuncDeclaration(FuncDeclaration ast, Object o) {
+    idTable.openScope();
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     idTable.enter (ast.I.spelling, ast); // permits recursion
     if (ast.duplicated)
@@ -317,9 +411,11 @@ public final class Checker implements Visitor {
     if (! ast.T.equals(eType))
       reporter.reportError ("body of function \"%\" has wrong type",
                             ast.I.spelling, ast.E.position);
+    idTable.closeScope();
     return null;
   }
-
+  
+  @Override
   public Object visitProcDeclaration(ProcDeclaration ast, Object o) {
     idTable.enter (ast.I.spelling, ast); // permits recursion
     if (ast.duplicated)
@@ -331,13 +427,15 @@ public final class Checker implements Visitor {
     idTable.closeScope();
     return null;
   }
-
+  
+  @Override
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object o) {
     ast.D1.visit(this, null);
     ast.D2.visit(this, null);
     return null;
   }
-
+  
+  @Override
   public Object visitTypeDeclaration(TypeDeclaration ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     idTable.enter (ast.I.spelling, ast);
@@ -346,11 +444,13 @@ public final class Checker implements Visitor {
                             ast.I.spelling, ast.position);
     return null;
   }
-
+  
+  @Override
   public Object visitUnaryOperatorDeclaration(UnaryOperatorDeclaration ast, Object o) {
     return null;
   }
-
+  
+  @Override
   public Object visitVarDeclaration(VarDeclaration ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     idTable.enter (ast.I.spelling, ast);
@@ -365,7 +465,8 @@ public final class Checker implements Visitor {
 
   // Returns the TypeDenoter for the Array Aggregate. Does not use the
   // given object.
-
+  
+  @Override
   public Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     TypeDenoter elemType = (TypeDenoter) ast.AA.visit(this, null);
@@ -374,7 +475,8 @@ public final class Checker implements Visitor {
       reporter.reportError ("incompatible array-aggregate element", "", ast.E.position);
     return elemType;
   }
-
+  
+  @Override
   public Object visitSingleArrayAggregate(SingleArrayAggregate ast, Object o) {
     TypeDenoter elemType = (TypeDenoter) ast.E.visit(this, null);
     ast.elemCount = 1;
@@ -385,7 +487,8 @@ public final class Checker implements Visitor {
 
   // Returns the TypeDenoter for the Record Aggregate. Does not use the
   // given object.
-
+  
+  @Override
   public Object visitMultipleRecordAggregate(MultipleRecordAggregate ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     FieldTypeDenoter rType = (FieldTypeDenoter) ast.RA.visit(this, null);
@@ -396,7 +499,8 @@ public final class Checker implements Visitor {
     ast.type = new MultipleFieldTypeDenoter(ast.I, eType, rType, ast.position);
     return ast.type;
   }
-
+  
+  @Override
   public Object visitSingleRecordAggregate(SingleRecordAggregate ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     ast.type = new SingleFieldTypeDenoter(ast.I, eType, ast.position);
@@ -407,6 +511,7 @@ public final class Checker implements Visitor {
 
   // Always returns null. Does not use the given object.
 
+  @Override
   public Object visitConstFormalParameter(ConstFormalParameter ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     idTable.enter(ast.I.spelling, ast);
@@ -416,6 +521,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitFuncFormalParameter(FuncFormalParameter ast, Object o) {
     idTable.openScope();
     ast.FPS.visit(this, null);
@@ -428,6 +534,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitProcFormalParameter(ProcFormalParameter ast, Object o) {
     idTable.openScope();
     ast.FPS.visit(this, null);
@@ -439,6 +546,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitVarFormalParameter(VarFormalParameter ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     idTable.enter (ast.I.spelling, ast);
@@ -448,16 +556,19 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitEmptyFormalParameterSequence(EmptyFormalParameterSequence ast, Object o) {
     return null;
   }
 
+  @Override
   public Object visitMultipleFormalParameterSequence(MultipleFormalParameterSequence ast, Object o) {
     ast.FP.visit(this, null);
     ast.FPS.visit(this, null);
     return null;
   }
 
+  @Override
   public Object visitSingleFormalParameterSequence(SingleFormalParameterSequence ast, Object o) {
     ast.FP.visit(this, null);
     return null;
@@ -467,6 +578,7 @@ public final class Checker implements Visitor {
 
   // Always returns null. Uses the given FormalParameter.
 
+  @Override
   public Object visitConstActualParameter(ConstActualParameter ast, Object o) {
     FormalParameter fp = (FormalParameter) o;
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -480,6 +592,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitFuncActualParameter(FuncActualParameter ast, Object o) {
     FormalParameter fp = (FormalParameter) o;
 
@@ -513,6 +626,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitProcActualParameter(ProcActualParameter ast, Object o) {
     FormalParameter fp = (FormalParameter) o;
 
@@ -539,6 +653,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitVarActualParameter(VarActualParameter ast, Object o) {
     FormalParameter fp = (FormalParameter) o;
 
@@ -555,6 +670,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitEmptyActualParameterSequence(EmptyActualParameterSequence ast, Object o) {
     FormalParameterSequence fps = (FormalParameterSequence) o;
     if (! (fps instanceof EmptyFormalParameterSequence))
@@ -562,6 +678,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitMultipleActualParameterSequence(MultipleActualParameterSequence ast, Object o) {
     FormalParameterSequence fps = (FormalParameterSequence) o;
     if (! (fps instanceof MultipleFormalParameterSequence))
@@ -573,6 +690,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
   public Object visitSingleActualParameterSequence(SingleActualParameterSequence ast, Object o) {
     FormalParameterSequence fps = (FormalParameterSequence) o;
     if (! (fps instanceof SingleFormalParameterSequence))
@@ -588,10 +706,12 @@ public final class Checker implements Visitor {
   // Returns the expanded version of the TypeDenoter. Does not
   // use the given object.
 
+  @Override
   public Object visitAnyTypeDenoter(AnyTypeDenoter ast, Object o) {
     return StdEnvironment.anyType;
   }
 
+  @Override
   public Object visitArrayTypeDenoter(ArrayTypeDenoter ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     if ((Integer.valueOf(ast.IL.spelling).intValue()) == 0)
@@ -599,18 +719,22 @@ public final class Checker implements Visitor {
     return ast;
   }
 
+  @Override
   public Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object o) {
     return StdEnvironment.booleanType;
   }
 
+  @Override
   public Object visitCharTypeDenoter(CharTypeDenoter ast, Object o) {
     return StdEnvironment.charType;
   }
 
+  @Override
   public Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object o) {
     return StdEnvironment.errorType;
   }
 
+  @Override
   public Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object o) {
     Declaration binding = (Declaration) ast.I.visit(this, null);
     if (binding == null) {
@@ -624,31 +748,37 @@ public final class Checker implements Visitor {
     return ((TypeDeclaration) binding).T;
   }
 
+  @Override
   public Object visitIntTypeDenoter(IntTypeDenoter ast, Object o) {
     return StdEnvironment.integerType;
   }
 
+  @Override
   public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o) {
     ast.FT = (FieldTypeDenoter) ast.FT.visit(this, null);
     return ast;
   }
 
+  @Override
   public Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     ast.FT.visit(this, null);
     return ast;
   }
 
+  @Override
   public Object visitSingleFieldTypeDenoter(SingleFieldTypeDenoter ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     return ast;
   }
 
   // Literals, Identifiers and Operators
+  @Override
   public Object visitCharacterLiteral(CharacterLiteral CL, Object o) {
     return StdEnvironment.charType;
   }
 
+  @Override
   public Object visitIdentifier(Identifier I, Object o) {
     Declaration binding = idTable.retrieve(I.spelling);
     if (binding != null)
@@ -656,10 +786,12 @@ public final class Checker implements Visitor {
     return binding;
   }
 
+  @Override
   public Object visitIntegerLiteral(IntegerLiteral IL, Object o) {
     return StdEnvironment.integerType;
   }
 
+  @Override
   public Object visitOperator(Operator O, Object o) {
     Declaration binding = idTable.retrieve(O.spelling);
     if (binding != null)
@@ -688,6 +820,7 @@ public final class Checker implements Visitor {
   // Returns the TypeDenoter of the Vname. Does not use the
   // given object.
 
+  @Override
   public Object visitDotVname(DotVname ast, Object o) {
     ast.type = null;
     TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
@@ -703,6 +836,7 @@ public final class Checker implements Visitor {
     return ast.type;
   }
 
+  @Override
   public Object visitSimpleVname(SimpleVname ast, Object o) {
     ast.variable = false;
     ast.type = StdEnvironment.errorType;
@@ -722,12 +856,20 @@ public final class Checker implements Visitor {
       } else if (binding instanceof VarFormalParameter) {
         ast.type = ((VarFormalParameter) binding).T;
         ast.variable = true;
-      } else
+        
+      } //Adding the instance of Init Declaration  --  Jhonny Diaz
+        else if (binding instanceof InitDeclaration) {
+        ast.type = ((InitDeclaration) binding).E.type;
+        ast.variable = true;
+        
+      }
+      else
         reporter.reportError ("\"%\" is not a const or var identifier",
                               ast.I.spelling, ast.I.position);
     return ast.type;
   }
 
+  @Override
   public Object visitSubscriptVname(SubscriptVname ast, Object o) {
     TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
     ast.variable = ast.V.variable;
@@ -747,6 +889,7 @@ public final class Checker implements Visitor {
 
   // Programs
 
+  @Override
   public Object visitProgram(Program ast, Object o) {
     ast.C.visit(this, null);
     return null;
@@ -785,6 +928,7 @@ public final class Checker implements Visitor {
   }
 
 
+  
   private static TypeDenoter checkFieldIdentifier(FieldTypeDenoter ast, Identifier I) {
     if (ast instanceof MultipleFieldTypeDenoter) {
       MultipleFieldTypeDenoter ft = (MultipleFieldTypeDenoter) ast;
@@ -896,15 +1040,17 @@ public final class Checker implements Visitor {
   // Enters these "declarations" in the identification table.
 
   private final static Identifier dummyI = new Identifier("", dummyPos);
-
+  private final static IntegerLiteral intL = new IntegerLiteral("6", dummyPos);// -- Carolina Narvaez
+  
   private void establishStdEnvironment () {
-
+    
     // idTable.startIdentification();
     StdEnvironment.booleanType = new BoolTypeDenoter(dummyPos);
     StdEnvironment.integerType = new IntTypeDenoter(dummyPos);
     StdEnvironment.charType = new CharTypeDenoter(dummyPos);
     StdEnvironment.anyType = new AnyTypeDenoter(dummyPos);
     StdEnvironment.errorType = new ErrorTypeDenoter(dummyPos);
+    StdEnvironment.arrayType = new ArrayTypeDenoter(intL, StdEnvironment.integerType, dummyPos);// -- Carolina Narvaez
 
     StdEnvironment.booleanDecl = declareStdType("Boolean", StdEnvironment.booleanType);
     StdEnvironment.falseDecl = declareStdConst("false", StdEnvironment.booleanType);
@@ -948,24 +1094,67 @@ public final class Checker implements Visitor {
   }
 
   
-    //Implementing methods just because it needs to be solved -- Jhonny Diaz
+    //Implementing methods just because it needs to be solved -- Jhonny Diaz - Carolina
+    // 
+    //Visit Init Delcaration, it visit the declaration. It also checks if it has been not declare before -- Johnny Diaz
     @Override
     public Object visitInitDeclaration(InitDeclaration ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        //Add the var to table
+        idTable.enter(ast.I.spelling, ast);
+        //Checks if it has been not declare
+        if (ast.duplicated)
+          reporter.reportError ("identifier \"%\" already declared",
+                                ast.I.spelling, ast.position); 
+        return null;
     }
 
     @Override
     public Object visitSequentialProcFuncDeclaration(SequentialProcFuncDeclaration ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      ast.D1.visit(this, null);
+      ast.D2.visit(this, null);          
+      return(null);
     }
 
+    boolean checkRecursive = true;
+    boolean checkRecursive2 = true;    
+    boolean checkRecursive3 = true; 
+    boolean checkRecursive4 = false;
     @Override
     public Object visitRecDeclaration(RecDeclaration ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      checkRecursive = false;
+      checkRecursive2 = false;
+      ast.I.visit(this, null); // Ingresamos los identifacadores a la tabla
+      checkRecursive = true;
+        
+      checkRecursive3 = false;    
+      ast.I.visit(this, null); // Recorremos sus parametros pero no los definimos en la tabla  
+      checkRecursive3 = true;
+      
+      checkRecursive4 = true;
+      ast.I.visit(this, null); // Recorremos sus parametros y los definimos en la tabla  
+      checkRecursive4 = false;
+      
+      checkRecursive2 = true;
+      return(null);
     }
 
     @Override
     public Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        if (! eType.equals(StdEnvironment.booleanType))
+          reporter.reportError("Boolean expression expected here", "", ast.E.position);
+        ast.C.visit(this, null);
+        return null;
+    }
+
+    @Override
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
+      Object lastEntryProg = idTable.getLastEntry ();
+      ast.I.visit(this, null);  
+      Object lastEntryDec1 = idTable.getLastEntry ();
+      ast.J.visit(this, null);
+      idTable.JumpEntrys((IdEntry)lastEntryProg, (IdEntry)lastEntryDec1);      
+      return(null);
     }
 }

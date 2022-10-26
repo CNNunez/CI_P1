@@ -68,8 +68,8 @@ final class Token extends Object {
 
     // reserved words - must be in alphabetical order...
     //Edited by Jhonny Diaz
+    //BEGIN has been deleted -- Jhonny Diaz
     ARRAY		= 4,
-//    BEGIN		= 5, Deleting BEGIN -- Jhonny Diaz
     CONST		= 5,
     DO			= 6,
     ELSE		= 7,

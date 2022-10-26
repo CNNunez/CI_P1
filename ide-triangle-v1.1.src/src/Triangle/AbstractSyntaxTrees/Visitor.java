@@ -22,8 +22,20 @@ public interface Visitor {
   public abstract Object visitEmptyCommand(EmptyCommand ast, Object o);
   public abstract Object visitIfCommand(IfCommand ast, Object o);
   public abstract Object visitLetCommand(LetCommand ast, Object o);
+  public abstract Object visitPipeCommand(PipeCommand ast, Object o);// Adding PipeCommand -- Nikolas Ocampo
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
+  public abstract Object visitLoopUntilCommand(LoopUntilCommand ast, Object o);
+  public abstract Object visitLoopDoUntilCommand(LoopDoUntilCommand ast, Object o); //Adding DoUntilCommand -- Nikholas Ocampo
+  public abstract Object visitLoopDoWhileCommand(LoopDoWhileCommand ast, Object o); //Adding DoWhileCommand -- Nikholas Ocampo
+ 
+  public abstract Object visitForUntilCommand(ForUntilCommand ast, Object o); //Adding ForUntilCommand -- Nikholas Ocampo
+  public abstract Object visitForWhileCommand(ForWhileCommand ast, Object o); //Adding ForWhileCommand -- Nikholas Ocampo
+  public abstract Object visitForDoCommand(ForDoCommand ast, Object o); //Adding ForDoCommand -- Nikholas Ocampo
+  public abstract Object visitForInCommand(ForInCommand ast, Object o); //Adding ForInCommand -- Nikholas Ocampo
+    
+  public abstract Object visitReturnCommand(ReturnCommand ast, Object o); //Adding ReturnCommand command to be sure its visited -- Nikholas Ocampo
+  public abstract Object visitLeaveNextCommand(LeaveNextCommand ast, Object o); //Adding Leave and Next command to be sure its visited -- Nikholas Ocampo
   public abstract Object visitNilCommand(NilCommand ast, Object o); //Adding NIL command to be sure its visited -- Jhonny Diaz
   public abstract Object visitLoopWhileDoCommand(LoopWhileDoCommand ast, Object o);//Adding loop while do command to be sure its visited -- Jhonny Diaz
 
@@ -53,6 +65,7 @@ public interface Visitor {
   public abstract Object visitInitDeclaration(InitDeclaration ast, Object o);//Adding Init declaration to be sure its visited -- Jhonny Diaz
   public abstract Object visitSequentialProcFuncDeclaration(SequentialProcFuncDeclaration ast, Object o);//Adding procfunc declaration to be sure its visited -- Jhonny Diaz
   public abstract Object visitRecDeclaration(RecDeclaration ast, Object o);//Adding rec declaration to be sure its visited -- Jhonny Diaz
+  public abstract Object visitLocalDeclaration(LocalDeclaration ast, Object o);//Adding local declaration to be sure its visited -- Jhonny Diaz
 
   // Array Aggregates
   public abstract Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object o);

@@ -40,7 +40,10 @@ build/
 dist/
 nbbuild/
 nbdist/
-nbproject/
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+out/
 
 # Subversion
 *.svn/
