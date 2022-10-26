@@ -407,11 +407,11 @@ public final class Checker implements Visitor {
     idTable.openScope();
     ast.FPS.visit(this, null);
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-    idTable.closeScope();
+    //idTable.closeScope();
     if (! ast.T.equals(eType))
       reporter.reportError ("body of function \"%\" has wrong type",
                             ast.I.spelling, ast.E.position);
-    idTable.closeScope();
+    //idTable.closeScope();
     return null;
   }
   
@@ -1111,8 +1111,9 @@ public final class Checker implements Visitor {
 
     @Override
     public Object visitSequentialProcFuncDeclaration(SequentialProcFuncDeclaration ast, Object o) {
-      ast.D1.visit(this, null);
-      ast.D2.visit(this, null);          
+      idTable.openScope();
+      TypeDenoter D1Type = (TypeDenoter)ast.D1.visit(this, null);
+      TypeDenoter D2Type = (TypeDenoter)ast.D2.visit(this, null);
       return(null);
     }
 
@@ -1122,6 +1123,7 @@ public final class Checker implements Visitor {
     boolean checkRecursive4 = false;
     @Override
     public Object visitRecDeclaration(RecDeclaration ast, Object o) {
+      idTable.openScope();
       checkRecursive = false;
       checkRecursive2 = false;
       ast.I.visit(this, null); // Ingresamos los identifacadores a la tabla
@@ -1136,6 +1138,7 @@ public final class Checker implements Visitor {
       checkRecursive4 = false;
       
       checkRecursive2 = true;
+      idTable.closeScope();
       return(null);
     }
 
