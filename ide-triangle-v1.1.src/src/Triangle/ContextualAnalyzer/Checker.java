@@ -1111,12 +1111,32 @@ public final class Checker implements Visitor {
 
     @Override
     public Object visitSequentialProcFuncDeclaration(SequentialProcFuncDeclaration ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      ast.D1.visit(this, null);
+      ast.D2.visit(this, null);          
+      return(null);
     }
 
+    boolean checkRecursive = true;
+    boolean checkRecursive2 = true;    
+    boolean checkRecursive3 = true; 
+    boolean checkRecursive4 = false;
     @Override
     public Object visitRecDeclaration(RecDeclaration ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      checkRecursive = false;
+      checkRecursive2 = false;
+      ast.I.visit(this, null); // Ingresamos los identifacadores a la tabla
+      checkRecursive = true;
+        
+      checkRecursive3 = false;    
+      ast.I.visit(this, null); // Recorremos sus parametros pero no los definimos en la tabla  
+      checkRecursive3 = true;
+      
+      checkRecursive4 = true;
+      ast.I.visit(this, null); // Recorremos sus parametros y los definimos en la tabla  
+      checkRecursive4 = false;
+      
+      checkRecursive2 = true;
+      return(null);
     }
 
     @Override
@@ -1130,6 +1150,11 @@ public final class Checker implements Visitor {
 
     @Override
     public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      Object lastEntryProg = idTable.getLastEntry ();
+      ast.I.visit(this, null);  
+      Object lastEntryDec1 = idTable.getLastEntry ();
+      ast.J.visit(this, null);
+      idTable.JumpEntrys((IdEntry)lastEntryProg, (IdEntry)lastEntryDec1);      
+      return(null);
     }
 }

@@ -68,8 +68,8 @@ public final class IdentificationTable {
       else if (entry.id.equals(id)) {
         present = true;
         searching = false;
-       } else
-       entry = entry.previous;
+      } else
+        entry = entry.previous;
     }
 
     attr.duplicated = present;
@@ -103,6 +103,22 @@ public final class IdentificationTable {
     }
 
     return attr;
+  }
+
+  //Leonardo
+  public IdEntry getLastEntry () {
+    return this.latest;
+  }
+  public void JumpEntrys (IdEntry firstEntry, IdEntry secondEntry) {
+    IdEntry entry, local;
+    local = null;
+    entry = this.latest;
+    while (entry != secondEntry) {
+      local = entry;
+      entry = local.previous;
+    }
+    entry = local;
+    entry.previous = firstEntry;
   }
 
 }
