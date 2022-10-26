@@ -188,12 +188,12 @@ public final class Checker implements Visitor {
     @Override
     public Object visitForInCommand(ForInCommand ast, Object o) {
         this.idTable.openScope();
-        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
         
         TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
         
         if (! (e1Type.equals(StdEnvironment.arrayType)))
             reporter.reportError("Array expression expected here", "", ast.E.position);
+        idTable.enter(ast.I2.spelling, StdEnvironment.maxintDecl);
         ast.C.visit(this, null);
         this.idTable.closeScope();
         return null;
