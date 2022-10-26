@@ -3,6 +3,9 @@
 # Chart dependencies
 **/charts/*.tgz
 
+*.html
+*.xml
+
 
 # Eclipse
 *.launch
