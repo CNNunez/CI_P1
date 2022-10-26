@@ -1,9 +1,10 @@
 let
-	var j init 5;
-	var i init 'c';
-	var y : Integer
+
+  var a init 1
+
 in
-	nil 
+
+  putint (a) ! imprime 1
+
 end
 
-! OK

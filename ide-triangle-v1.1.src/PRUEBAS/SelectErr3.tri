@@ -1,11 +1,7 @@
-select 1 from
+select '1' from
 
-  when 5 || 6 then putint (1) ! separador incorrecto debe ser únicamente "|"
+  when '3' then putint (12)
 
-  when 7 then putint(7)
-
-  else  putint (0)
-
-  !else para otro caso de error
+  when '3' then putint (2) ! etiqueta repetida
 
 end

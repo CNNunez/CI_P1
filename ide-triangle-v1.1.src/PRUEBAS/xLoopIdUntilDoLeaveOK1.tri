@@ -1,9 +1,0 @@
-loop ciclo 
-until false do
-  if false then
-    nil
-  else
-    leave ! anónimo
-  end
-end
-  

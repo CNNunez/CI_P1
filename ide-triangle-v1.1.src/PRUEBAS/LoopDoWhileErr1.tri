@@ -1,3 +1,8 @@
-loop do do nil ; nil while 3=3 end
+loop do
 
-! Error: Hay 2 do
+    putint(1) 
+
+  while 'a' ! condición no booleana 
+
+end
+

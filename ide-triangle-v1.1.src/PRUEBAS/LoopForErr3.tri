@@ -1,3 +1,15 @@
-loop for i from 5 6 do nil ; nil end
+let
 
-! falta to en el rango
+  var k : Boolean
+
+in
+
+  loop for i from 1 to k do ! k debería ser entera
+
+    k := k + 1 ; 
+
+    putint (1) ! debe imprimir 10 unos, si no hubiera otro error
+
+  end
+
+end

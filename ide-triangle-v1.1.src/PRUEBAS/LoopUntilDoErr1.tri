@@ -1,3 +1,7 @@
-until 2=2 do nil ; nil end
+loop until 1 ! condición no booleana
+  do
 
-! Error: Falta el loop antes de until
+    putint (1)
+
+end
+

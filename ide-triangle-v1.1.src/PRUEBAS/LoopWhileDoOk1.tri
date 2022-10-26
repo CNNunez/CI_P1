@@ -1,3 +1,14 @@
-loop while 1=1 do nil end
+let
+  const b ~ 10;
+  var a init 15
+in
+  loop
+  while a > b do
 
-! OK
+    putint (a) ; ! debe imprimir 15, 14, 13, 12, 11
+    a := a - 1
+
+  end
+
+end
+

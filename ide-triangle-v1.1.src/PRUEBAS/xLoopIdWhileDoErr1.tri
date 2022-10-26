@@ -1,4 +1,0 @@
-loop 1 while true do ! 1 no es un identificador
-    nil
-end
-  

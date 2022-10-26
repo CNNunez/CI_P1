@@ -1,3 +1,13 @@
-loop do nil until 4=4 end
+let
+  var x : Integer
+in
+  x := 1 ;
+  loop do 
 
-! OK
+    putint (x);
+    x := x +1
+
+  until x > 5 ! Debe imprimir 1, 2, 3, 4, 5 
+  end
+
+end

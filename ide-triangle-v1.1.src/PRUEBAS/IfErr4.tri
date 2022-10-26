@@ -1,3 +1,15 @@
-if 1=1 then puteol() else puteol() 
+! error en segundo if
 
-! Error: Falta el end del if
+let
+
+  var a : Integer
+
+in 
+  if a > 2 then 
+    put ('2')
+  | a = m then ! error: m no declarada
+      put ('0')
+  else
+      put ('1')
+  end ! del if
+end ! del let

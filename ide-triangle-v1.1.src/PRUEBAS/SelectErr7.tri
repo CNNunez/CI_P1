@@ -1,10 +1,14 @@
-select 10 from
+select 'a' from
 
-  when 5 to 6 then putint (1) ! case range bien
+  when 'b' then 
+    select '1' from
 
-  when 'a' to then putint(7) ! falta literal después de to
+      when 3 then putint (12) ! 3 no es un caracter 
 
-  else putint (0)
+      when '4' then putint (2)
+
+    end
+
+  when 'c' then putint (2)
 
 end
-

@@ -1,5 +1,1 @@
-nil;
-puteol();
-nil
- 
-! OK
+nil ; nil ! dos nil en secuencia constituyen un programa válido 

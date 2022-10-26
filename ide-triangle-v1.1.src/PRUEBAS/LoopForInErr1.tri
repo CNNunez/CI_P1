@@ -1,3 +1,1 @@
-loop for x in [1,2,3,4] putint (x) end
-
-! Falta el do
+loop for x in 8 * 20 do putint (x) end ! expresión (proveedora de datos) no es un arreglo

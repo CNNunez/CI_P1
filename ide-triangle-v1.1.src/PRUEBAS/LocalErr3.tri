@@ -1,13 +1,21 @@
-let
-	local
-		! var a init 5;
-		! var b init 15
-	in
-		var c init a * b * 2
-	end;
-	var d init 5
-in
-	putint(c)
-end
 
-! Error: parte privada de declaración local está vacía 
+let
+
+  local
+    const a ~ 1
+  in
+
+    local
+      const b ~ a + 1 ! a visible aquí­
+    in
+      const c ~ b + a ! a y b visibles aquí
+    end
+    ;
+    const d ~ a + c ! a y c visibles aquí, b no es visible aquí
+  end
+
+in
+
+  putint(b) ! b no debe ser visible aquí­
+
+end

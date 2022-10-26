@@ -1,3 +1,15 @@
-loop for i from 5 to 6 until i < 5 do nil end
+let
 
-!ok
+  var k init 1
+
+in
+
+  loop for i from k to 10 until i > 3 do ! determinar que k se evalúa una sola vez al inicio del loop for
+
+    k := k + 1 ; 
+
+    putint (1) ! debe imprimir 3 unos
+
+  end
+
+end
