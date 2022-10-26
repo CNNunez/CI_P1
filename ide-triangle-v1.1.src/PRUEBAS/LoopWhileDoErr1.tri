@@ -1,3 +1,11 @@
-while 1=1 do nil ; nil end
+! sintácticamente correcto
+loop ! con comando subordinado compuesto
 
-! Error: vieja sintaxis de while
+  while a > b do ! error contextual: a y b no están declaradas
+
+    putint (1) ;
+
+    putint (2) 
+
+end
+

@@ -1,3 +1,0 @@
-loop when while true do ! when es una palabra reservada, no un identificador
-    nil
-end

@@ -1,3 +1,6 @@
-loop for i from 5 to 6 nil ; nil end
+  loop for i from 1 to 10 do 
 
-! falta do
+    put (i) ! debe dar error, i es entera, no Char 
+
+  end
+

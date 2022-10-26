@@ -1,11 +1,7 @@
-select 0 from
-  when 3 then putint (3)
-  when 4 then
-! comienza select anidado
-    select '1' from
-      when '1' then putint (1) !OK, está en select anidado
-      else putint (2)
-    end
-! terminó choose anidado
-! select externo no tiene else, OK
+select 1 from
+
+  when 1 then putint (1) 
+
+  else putint (2)
+
 end

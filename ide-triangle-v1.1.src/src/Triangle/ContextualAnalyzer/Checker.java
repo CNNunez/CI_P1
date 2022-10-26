@@ -84,14 +84,17 @@ public final class Checker implements Visitor {
     ast.C1.visit(this, null);
     return null;
   }
-  
+ 
+ // -- Carolina Narvaez
  @Override
   public Object visitIfCommand(IfCommand ast, Object o) {
+    idTable.openScope();
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
     ast.C1.visit(this, null);
     ast.C2.visit(this, null);
+    idTable.closeScope();
     return null;
   }
   
@@ -111,43 +114,52 @@ public final class Checker implements Visitor {
     return null;
   }
   
+  // -- Carolina Narvaez
   @Override
   public Object visitWhileCommand(WhileCommand ast, Object o) {
+    idTable.openScope();
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
     ast.C.visit(this, null);
+    idTable.closeScope();
     return null;
   }
 
   
-  //Adding LoopUntilCommand -- Nikholas Ocampo
+  //Adding LoopUntilCommand -- Nikholas Ocampo -- Carolina Narvaez
   @Override
   public Object visitLoopUntilCommand(LoopUntilCommand ast, Object o) {
+    idTable.openScope();
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
     ast.C.visit(this, null);
+    idTable.closeScope();
     return null;
   }
   
-    //Adding LoopDoWhileCommand -- Nikholas Ocampo
+    //Adding LoopDoWhileCommand -- Nikholas Ocampo -- Carolina Narvaez
   @Override
   public Object visitLoopDoWhileCommand(LoopDoWhileCommand ast, Object o) {
+    idTable.openScope();
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
     ast.C.visit(this, null);
+    idTable.closeScope();
     return null;
   }
   
-    //Adding LoopDoUntilCommand -- Nikholas Ocampo
+    //Adding LoopDoUntilCommand -- Nikholas Ocampo -- Carolina Narvaez
   @Override
   public Object visitLoopDoUntilCommand(LoopDoUntilCommand ast, Object o) {
+    idTable.openScope();
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
     ast.C.visit(this, null);
+    idTable.closeScope();
     return null;
   }
   
@@ -386,6 +398,7 @@ public final class Checker implements Visitor {
   
   @Override
   public Object visitFuncDeclaration(FuncDeclaration ast, Object o) {
+    idTable.openScope();
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     idTable.enter (ast.I.spelling, ast); // permits recursion
     if (ast.duplicated)
@@ -398,6 +411,7 @@ public final class Checker implements Visitor {
     if (! ast.T.equals(eType))
       reporter.reportError ("body of function \"%\" has wrong type",
                             ast.I.spelling, ast.E.position);
+    idTable.closeScope();
     return null;
   }
   
@@ -1080,20 +1094,18 @@ public final class Checker implements Visitor {
   }
 
   
-    //Implementing methods just because it needs to be solved -- Jhonny Diaz
-  
+    //Implementing methods just because it needs to be solved -- Jhonny Diaz - Carolina
+    // 
     //Visit Init Delcaration, it visit the declaration. It also checks if it has been not declare before -- Johnny Diaz
     @Override
     public Object visitInitDeclaration(InitDeclaration ast, Object o) {
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-        
-        
         //Add the var to table
         idTable.enter(ast.I.spelling, ast);
         //Checks if it has been not declare
         if (ast.duplicated)
           reporter.reportError ("identifier \"%\" already declared",
-                                ast.I.spelling, ast.position);        
+                                ast.I.spelling, ast.position); 
         return null;
     }
 

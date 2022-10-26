@@ -1,4 +1,0 @@
-loop then do ! then es una palabra reservada, no un identificador
-    nil
-until true 
-end

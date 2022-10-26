@@ -1,6 +1,6 @@
 let
-	var lista : array 5 of Integer
-in
+	var lista : array 5 of Integer ! ya está implementado. Puntos de obsequio.
+in 
 	nil 
 end
 

@@ -1,3 +1,5 @@
-loop for i from 5 to 6 i < 5 do nil ; nil end
+loop for i from 1 to 10 while i < 5 do
+    putint (i) ! debe imprimir del 1 al 4
+end ;
+putint(i) ! i debe ser inaccesible aquí
 
-!falta while o until después del 6, o un do. i es un identificador

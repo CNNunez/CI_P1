@@ -1,3 +1,8 @@
-do nil until 4=4 end
+loop do
 
-! Error: Falta el loop o algo más
+    putint (1) 
+
+  until 1 ! condición no booleana
+
+end
+

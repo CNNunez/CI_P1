@@ -1,9 +1,7 @@
-select 1 from
+select '1' from 
 
-  when 0 to 1 then putint (1) ! rango de literales
+  when '1' then putint (12)
 
-  when 2 then putint(2)
+  when '4' then putint (2)
 
 end
-
-! OK

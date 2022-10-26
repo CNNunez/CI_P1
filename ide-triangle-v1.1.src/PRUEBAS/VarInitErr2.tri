@@ -1,9 +1,11 @@
-let
-	var j init 'c';
-	var i init 4 : Integer; 
-	var y : Integer
-in
-	nil 
-end
 
-! Error: "i" no debería tener declaración de tipo
+let
+
+  var x init 1
+
+in
+
+  x := true ! x es una variable entera
+
+end
+ 

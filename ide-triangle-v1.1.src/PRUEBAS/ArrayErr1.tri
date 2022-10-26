@@ -1,7 +1,7 @@
 let
-	var lista : array of Integer
-in
+	var lista : array 0 of Integer ! dar error ya está implementado. Puntos de obsequio.
+in 
 	nil 
 end
 
-! Error: Falta tamaño del array
+! OK

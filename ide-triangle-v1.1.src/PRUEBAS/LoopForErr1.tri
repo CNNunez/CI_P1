@@ -1,3 +1,4 @@
-for i from 5 to 6 do nil ; nil end
-
-! loop omitido antes del for
+loop for i from 1 to 10 do
+    putint (i) ! debe imprimir del 1 al 10
+end ;
+putint(i) ! i debe ser inaccesible aquí

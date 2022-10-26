@@ -1,13 +1,16 @@
-select 1 from
+select 'a' from
 
-  when 5 to 6 then putint (1) ! separador correcto
+  when 'b' then 
+    select '1' from
 
-  when 7 then putint(7)
+      when '3' then putint (12)
+      
+      when 'a' then put ('a')
 
-  else  putint (0)
+      when '3' then putint (2) !etiqueta repetida
 
-  else ! este else está sobrando, debe ser detectado
+    end
+
+  when 'c' then putint (2)
 
 end
-
-! Error: detecta else espurio
