@@ -193,7 +193,7 @@ public final class Checker implements Visitor {
         TypeDenoter e1Type = (TypeDenoter) ast.E.visit(this, null);
         
         if (! (e1Type.equals(StdEnvironment.arrayType)))
-            reporter.reportError("malo es bueno", "", ast.E.position);
+            reporter.reportError("Array expression expected here", "", ast.E.position);
         ast.C.visit(this, null);
         this.idTable.closeScope();
         return null;
