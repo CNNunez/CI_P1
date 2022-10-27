@@ -1158,13 +1158,13 @@ public final class Checker implements Visitor {
     @Override
     public Object visitRecDeclaration(RecDeclaration ast, Object o) {
 
-      ast.I.visit(this, null); // Ingresamos los identifacadores a la tabla
+      ast.I.visit(this, null); // Add identifiers to table
       Rec1 = true;
 
-      ast.I.visit(this, null); // Recorremos sus parametros pero no los definimos en la tabla
+      ast.I.visit(this, null); // Getting parameters
       Rec3 = true;
 
-      ast.I.visit(this, null); // Recorremos sus parametros y los definimos en la tabla
+      ast.I.visit(this, null); // Adding parameters
 
       Rec2 = true;
       return(null);
