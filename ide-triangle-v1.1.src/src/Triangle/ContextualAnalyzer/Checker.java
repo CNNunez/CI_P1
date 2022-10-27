@@ -1182,13 +1182,13 @@ public final class Checker implements Visitor {
     @Override
     public Object visitRecDeclaration(RecDeclaration ast, Object o) {
 
-      ast.I.visit(this, null); // Ingresamos los identifacadores a la tabla
+      ast.I.visit(this, null); // Add identifiers to table
       Rec1 = true;
 
       ast.I.visit(this, null); // Recorremos sus parametros pero no los definimos en la tabla
       Rec2 = true;
 
-      ast.I.visit(this, null); // Recorremos sus parametros y los definimos en la tabla
+      ast.I.visit(this, null); // Adding parameters
 
       Rec3 = true;
       return(null);
@@ -1205,11 +1205,16 @@ public final class Checker implements Visitor {
 
     @Override
     public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
-      Object lastEntryProg = idTable.getLastEntry ();
-      ast.I.visit(this, null);  
-      Object lastEntryDec1 = idTable.getLastEntry ();
+      //Get the latest object in table before D1
+      IdEntry lastEntryProg = idTable.getLatest ();
+      //Adding the D1 to the table
+      ast.I.visit(this, null);
+      //Getting latest again to use it later
+      IdEntry lastEntryDec1 = idTable.getLatest ();
+      //Adding D2 to the table
       ast.J.visit(this, null);
-      idTable.JumpEntrys((IdEntry)lastEntryProg, (IdEntry)lastEntryDec1);      
+      //Here, we link the latest entry with the latest at the moment before the entry of D1
+      idTable.Rollback(lastEntryProg, lastEntryDec1);
       return(null);
     }
 }
