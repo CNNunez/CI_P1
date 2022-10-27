@@ -443,28 +443,26 @@ public final class Checker implements Visitor {
           idTable.openScope();
           ast.FPS.visit(this, null);
           idTable.closeScope();
-      }else{
-
-
-          if(!Rec1){
-              idTable.enter (ast.I.spelling, ast); // permits recursion
-              if (ast.duplicated)
-                  reporter.reportError ("identifier \"%\" already declared",
-                          ast.I.spelling, ast.position);
-
-          }else{
-              if(Rec2){
-                  idTable.enter (ast.I.spelling, ast); // permits recursion
-                  if (ast.duplicated)
-                      reporter.reportError ("identifier \"%\" already declared",
-                              ast.I.spelling, ast.position);
-              }
-              idTable.openScope();
-              ast.FPS.visit(this, null);
-              ast.C.visit(this, null);
-              idTable.closeScope();
-          }
       }
+
+
+      if(!Rec1){
+          idTable.enter (ast.I.spelling, ast); // permits recursion
+          if (ast.duplicated)
+              reporter.reportError ("identifier \"%\" already declared",
+                      ast.I.spelling, ast.position);
+
+      }
+      if(Rec2){
+          idTable.enter (ast.I.spelling, ast); // permits recursion
+          if (ast.duplicated)
+              reporter.reportError ("identifier \"%\" already declared",
+                      ast.I.spelling, ast.position);
+      }
+      idTable.openScope();
+      ast.FPS.visit(this, null);
+      ast.C.visit(this, null);
+      idTable.closeScope();
       return null;
   }
   
