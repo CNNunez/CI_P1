@@ -9,7 +9,7 @@ let
 
     |
 
-    func g (b : Integer, c: Boolean): Integer ~ if c then f(1) else 0 end
+    func g (b : Integer, c: Boolean): Integer ~ if c then f(1) else 0 ! end eliminado. if expression no lleva end
 
   end
 

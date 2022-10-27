@@ -21,6 +21,14 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public final class Checker implements Visitor {
 
+    String op;
+
+    //Control Variables for check rec's
+    boolean Rec1 = false;
+    boolean Rec2 = false;
+    boolean Rec3 = false;
+    boolean Rec4 = false;
+
   // Commands
 
   // Always returns null. Does not use the given object.
@@ -398,34 +406,66 @@ public final class Checker implements Visitor {
   
   @Override
   public Object visitFuncDeclaration(FuncDeclaration ast, Object o) {
-    idTable.openScope();
-    ast.T = (TypeDenoter) ast.T.visit(this, null);
-    idTable.enter (ast.I.spelling, ast); // permits recursion
-    if (ast.duplicated)
-      reporter.reportError ("identifier \"%\" already declared",
-                            ast.I.spelling, ast.position);
-    idTable.openScope();
-    ast.FPS.visit(this, null);
-    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-    //idTable.closeScope();
-    if (! ast.T.equals(eType))
-      reporter.reportError ("body of function \"%\" has wrong type",
-                            ast.I.spelling, ast.E.position);
-    //idTable.closeScope();
-    return null;
+      if(!Rec3) {
+          idTable.openScope();
+          ast.FPS.visit(this, null);
+          idTable.closeScope();
+      }
+
+      if(!Rec1){
+          ast.T = (TypeDenoter) ast.T.visit(this, null);
+          idTable.enter (ast.I.spelling, ast); // permits recursion
+          if (ast.duplicated)
+              reporter.reportError ("identifier \"%\" already declared",
+                      ast.I.spelling, ast.position);
+
+      }
+      if(Rec2){
+          ast.T = (TypeDenoter) ast.T.visit(this, null);
+          idTable.enter (ast.I.spelling, ast); // permits recursion
+          if (ast.duplicated)
+              reporter.reportError ("identifier \"%\" already declared",
+                      ast.I.spelling, ast.position);
+      }
+          idTable.openScope();
+          ast.FPS.visit(this, null);
+          TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+          idTable.closeScope();
+          if (! ast.T.equals(eType))
+              reporter.reportError ("body of function \"%\" has wrong type",
+                      ast.I.spelling, ast.E.position);
+      return null;
   }
   
   @Override
   public Object visitProcDeclaration(ProcDeclaration ast, Object o) {
-    idTable.enter (ast.I.spelling, ast); // permits recursion
-    if (ast.duplicated)
-      reporter.reportError ("identifier \"%\" already declared",
-                            ast.I.spelling, ast.position);
-    idTable.openScope();
-    ast.FPS.visit(this, null);
-    ast.C.visit(this, null);
-    idTable.closeScope();
-    return null;
+      if(!Rec3) {
+          idTable.openScope();
+          ast.FPS.visit(this, null);
+          idTable.closeScope();
+      }else{
+
+
+          if(!Rec1){
+              idTable.enter (ast.I.spelling, ast); // permits recursion
+              if (ast.duplicated)
+                  reporter.reportError ("identifier \"%\" already declared",
+                          ast.I.spelling, ast.position);
+
+          }else{
+              if(Rec2){
+                  idTable.enter (ast.I.spelling, ast); // permits recursion
+                  if (ast.duplicated)
+                      reporter.reportError ("identifier \"%\" already declared",
+                              ast.I.spelling, ast.position);
+              }
+              idTable.openScope();
+              ast.FPS.visit(this, null);
+              ast.C.visit(this, null);
+              idTable.closeScope();
+          }
+      }
+      return null;
   }
   
   @Override
@@ -1117,28 +1157,18 @@ public final class Checker implements Visitor {
       return(null);
     }
 
-    boolean checkRecursive = true;
-    boolean checkRecursive2 = true;    
-    boolean checkRecursive3 = true; 
-    boolean checkRecursive4 = false;
     @Override
     public Object visitRecDeclaration(RecDeclaration ast, Object o) {
-      idTable.openScope();
-      checkRecursive = false;
-      checkRecursive2 = false;
+
       ast.I.visit(this, null); // Ingresamos los identifacadores a la tabla
-      checkRecursive = true;
-        
-      checkRecursive3 = false;    
-      ast.I.visit(this, null); // Recorremos sus parametros pero no los definimos en la tabla  
-      checkRecursive3 = true;
-      
-      checkRecursive4 = true;
-      ast.I.visit(this, null); // Recorremos sus parametros y los definimos en la tabla  
-      checkRecursive4 = false;
-      
-      checkRecursive2 = true;
-      idTable.closeScope();
+      Rec1 = true;
+
+      ast.I.visit(this, null); // Recorremos sus parametros pero no los definimos en la tabla
+      Rec3 = true;
+
+      ast.I.visit(this, null); // Recorremos sus parametros y los definimos en la tabla
+
+      Rec2 = true;
       return(null);
     }
 
