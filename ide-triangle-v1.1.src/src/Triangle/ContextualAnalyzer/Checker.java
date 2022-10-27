@@ -404,67 +404,88 @@ public final class Checker implements Visitor {
     return null;
   }
   
+  // --Carolina Narvaez
   @Override
   public Object visitFuncDeclaration(FuncDeclaration ast, Object o) {
-      if(!Rec3) {
+      if (!Rec1 && !Rec2 && !Rec3){
+        ast.T = (TypeDenoter) ast.T.visit(this, null);
+        idTable.enter (ast.I.spelling, ast); // add var on level
+            if (ast.duplicated)
+                reporter.reportError (" \"%\" identifier already declared",
+                    ast.I.spelling, ast.position);
+      }
+      
+      else if (Rec1 && !Rec2 && !Rec3){
           idTable.openScope();
           ast.FPS.visit(this, null);
           idTable.closeScope();
       }
-
-      if(!Rec1){
-          ast.T = (TypeDenoter) ast.T.visit(this, null);
-          idTable.enter (ast.I.spelling, ast); // permits recursion
-          if (ast.duplicated)
-              reporter.reportError ("identifier \"%\" already declared",
-                      ast.I.spelling, ast.position);
-
-      }
-      if(Rec2){
-          ast.T = (TypeDenoter) ast.T.visit(this, null);
-          idTable.enter (ast.I.spelling, ast); // permits recursion
-          if (ast.duplicated)
-              reporter.reportError ("identifier \"%\" already declared",
-                      ast.I.spelling, ast.position);
-      }
+      
+      else if (Rec1 && Rec2 && !Rec3){
           idTable.openScope();
           ast.FPS.visit(this, null);
-          TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+          TypeDenoter eType= (TypeDenoter) ast.E.visit(this, null);
           idTable.closeScope();
-          if (! ast.T.equals(eType))
-              reporter.reportError ("body of function \"%\" has wrong type",
-                      ast.I.spelling, ast.E.position);
+          if (!ast.T.equals(eType)){
+              reporter.reportError ("function \"%\" has a wrong type",
+                    ast.I.spelling, ast.E.position);
+          }
+      }
+      
+      else if (Rec1 && Rec2 && Rec3){
+          idTable.enter (ast.I.spelling, ast); // add var on level
+            if (ast.duplicated)
+                reporter.reportError (" \"%\" identifier already declared",
+                    ast.I.spelling, ast.position);
+            
+          idTable.openScope();
+          ast.FPS.visit(this, null);
+          TypeDenoter eType= (TypeDenoter) ast.E.visit(this, null);
+          idTable.closeScope();
+          if (!ast.T.equals(eType)){
+              reporter.reportError ("function \"%\" has a wrong type",
+                    ast.I.spelling, ast.E.position);
+          }
+      }
+      
       return null;
   }
   
+  // --Carolina Narvaez
   @Override
   public Object visitProcDeclaration(ProcDeclaration ast, Object o) {
-      if(!Rec3) {
+      if (!Rec1 && !Rec2 && !Rec3){
+        idTable.enter (ast.I.spelling, ast); // add var on level
+            if (ast.duplicated)
+                reporter.reportError (" \"%\" identifier already declared",
+                    ast.I.spelling, ast.position);
+      }
+      
+      else if (Rec1 && !Rec2 && !Rec3){
           idTable.openScope();
           ast.FPS.visit(this, null);
           idTable.closeScope();
-      }else{
-
-
-          if(!Rec1){
-              idTable.enter (ast.I.spelling, ast); // permits recursion
-              if (ast.duplicated)
-                  reporter.reportError ("identifier \"%\" already declared",
-                          ast.I.spelling, ast.position);
-
-          }else{
-              if(Rec2){
-                  idTable.enter (ast.I.spelling, ast); // permits recursion
-                  if (ast.duplicated)
-                      reporter.reportError ("identifier \"%\" already declared",
-                              ast.I.spelling, ast.position);
-              }
-              idTable.openScope();
-              ast.FPS.visit(this, null);
-              ast.C.visit(this, null);
-              idTable.closeScope();
-          }
       }
+      
+      else if (Rec1 && Rec2 && !Rec3){
+          idTable.openScope();
+          ast.FPS.visit(this, null);
+          ast.C.visit(this, null);
+          idTable.closeScope();
+      }
+      
+      else if (Rec1 && Rec2 && Rec3){
+          idTable.enter (ast.I.spelling, ast); // add var on level
+            if (ast.duplicated)
+                reporter.reportError (" \"%\" identifier already declared",
+                    ast.I.spelling, ast.position);
+            
+          idTable.openScope();
+          ast.FPS.visit(this, null);
+          ast.C.visit(this, null);
+          idTable.closeScope();
+      }
+      
       return null;
   }
   
@@ -1156,7 +1177,8 @@ public final class Checker implements Visitor {
       TypeDenoter D2Type = (TypeDenoter)ast.D2.visit(this, null);
       return(null);
     }
-
+    
+    // --Carolina Narvaez
     @Override
     public Object visitRecDeclaration(RecDeclaration ast, Object o) {
 
@@ -1164,11 +1186,11 @@ public final class Checker implements Visitor {
       Rec1 = true;
 
       ast.I.visit(this, null); // Recorremos sus parametros pero no los definimos en la tabla
-      Rec3 = true;
+      Rec2 = true;
 
       ast.I.visit(this, null); // Recorremos sus parametros y los definimos en la tabla
 
-      Rec2 = true;
+      Rec3 = true;
       return(null);
     }
 
