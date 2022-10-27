@@ -105,20 +105,28 @@ public final class IdentificationTable {
     return attr;
   }
 
-  //Leonardo
-  public IdEntry getLastEntry () {
+  //Method to get the latest entry in table -- Jhonny Diaz
+  public IdEntry getLatest () {
     return this.latest;
   }
-  public void JumpEntrys (IdEntry firstEntry, IdEntry secondEntry) {
-    IdEntry entry, local;
+
+
+  //This method roollback the procedure that we have done, but "forget" the D1, this way D1 will be private -- Jhonny Diaz
+  public void Rollback (IdEntry latest1, IdEntry latest2) {
+    IdEntry temp, local;
+
     local = null;
-    entry = this.latest;
-    while (entry != secondEntry) {
-      local = entry;
-      entry = local.previous;
+    temp = this.latest;
+
+    while (temp.previous != latest1) {
+      local = temp;
+      temp = local.previous;
     }
-    entry = local;
-    entry.previous = firstEntry;
+
+
+
+    this.latest = temp;
+    latest.previous = latest1;
   }
 
 }
