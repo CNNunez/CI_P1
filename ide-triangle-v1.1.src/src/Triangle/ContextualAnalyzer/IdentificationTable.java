@@ -118,15 +118,15 @@ public final class IdentificationTable {
     local = null;
     temp = this.latest;
 
-    while (temp.previous != latest1) {
+    while (temp.previous != latest2) {
       local = temp;
       temp = local.previous;
     }
 
+    temp.previous = latest1;
 
 
     this.latest = temp;
-    latest.previous = latest1;
   }
 
 }
