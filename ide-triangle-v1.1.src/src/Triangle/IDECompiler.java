@@ -58,12 +58,13 @@ public class IDECompiler {
             Checker checker = new Checker(report);
             checker.check(rootAST);
             if (report.numErrors == 0) {
-//                System.out.println("Code Generation ...");
-//                Encoder encoder = new Encoder(report);
-//                encoder.encodeRun(rootAST, false);
+                //Changed by Johnny Diaz -- Uncommenting the encoder
+                System.out.println("Code Generation ...");
+                Encoder encoder = new Encoder(report);
+                encoder.encodeRun(rootAST, true);
                 
                 if (report.numErrors == 0) {
-//                    encoder.saveObjectProgram(sourceName.replace(".tri", ".tam"));
+                    encoder.saveObjectProgram(sourceName.replace(".tri", ".tam"));
                     success = true;
                 }
             }

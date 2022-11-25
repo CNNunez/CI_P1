@@ -980,10 +980,27 @@ public final class Encoder implements Visitor {
         }
     }
 
-    //Implementing methods just because it needs to be solved -- Jhonny Diaz
+    //Init declaration -- Johnny Diaz
+    //It's inspired by visitConstDeclaration
     @Override
     public Object visitInitDeclaration(InitDeclaration ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Frame frame = (Frame) o;
+        int extraSize = 0;
+        extraSize = ((Integer) ast.E.visit(this, null)).intValue();
+
+        if (ast.E instanceof CharacterExpression) {
+            CharacterLiteral CL = ((CharacterExpression) ast.E).CL;
+            ast.entity = new UnknownValue(Machine.characterSize, frame.level, frame.size);
+        } else if (ast.E instanceof IntegerExpression) {
+            IntegerLiteral IL = ((IntegerExpression) ast.E).IL;
+            ast.entity = new UnknownValue(Machine.integerSize,  frame.level, frame.size);
+        } else {
+            int valSize = ((Integer) ast.E.visit(this, frame)).intValue();
+            ast.entity = new UnknownValue(valSize, frame.level, frame.size);
+            extraSize = valSize;
+        }
+        writeTableDetails(ast);
+        return new Integer(extraSize);
     }
 
     @Override
